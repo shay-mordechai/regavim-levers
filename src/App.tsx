@@ -344,7 +344,7 @@ export default function App() {
                 </span>
                 <span className="flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  v2026.2 Live
+                  אב-טיפוס מבוסס AI - לא עבר אימות משפטי
                 </span>
               </div>
               <p className="text-xs text-slate-400">
@@ -551,6 +551,20 @@ export default function App() {
             </div>
           </div>
         )}
+
+        
+            <!-- Disclaimer -->
+            <div className="mt-8 p-5 rounded-2xl bg-slate-900 border border-slate-700/50 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-2 h-full bg-cyan-600/50"></div>
+              <h4 className="text-cyan-400 font-bold text-sm mb-2 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4" />
+                הערת שקיפות (Disclaimer)
+              </h4>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                מערכת זו הינה <strong>מודל רעיוני (Conceptual Framework)</strong> שנוצר כיוזמה אזרחית בעזרת כלי בינה מלאכותית (AI) לשם סיעור מוחות. המנופים המוצגים <strong>אינם מהווים חוות דעת משפטית</strong>. חלקם מתארים פערים יישומיים קיימים, בעוד אחרים הם בגדר הצעות מדיניות חדשות הדורשות הוכחת סמכות, חקיקה, או התאמה להסכמי הסחר ופרוטוקול פריז.
+              </p>
+            </div>
+    
 
         {/* TAB 2: STRATEGIC CATEGORIZATION */}
         {activeTab === 'categories' && (
@@ -759,7 +773,7 @@ export default function App() {
                     <div className="mt-6 p-4 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
                       <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                       <div>
-                        <span className="text-sm font-bold text-amber-500 block mb-1">ניתוח סיכונים ובג״ץ (Red Team Assessment):</span>
+                        <span className="text-sm font-bold text-amber-500 block mb-1">ניתוח סיכונים והערכה משפטית ראשונית:</span>
                         <p className="text-sm text-slate-300 leading-relaxed">{lever.feasibilityAndRisks}</p>
                       </div>
                     </div>
@@ -881,7 +895,7 @@ export default function App() {
                   <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                     <span className="text-xs font-bold text-emerald-400">הוראת שעה לשר האוצר (דמי סניוראז׳):</span>
                     <p className="text-xs text-slate-300 leading-relaxed">
-                      "הוראה מנהלית לניכוי הוצאות החזקת ותחזוקת השקל הישראלי באיו\"ש מתוך כספי הגבייה המועברים לרש\"פ, בהתאם לחישוב בנק ישראל ובשיעור של 1.5% מהמחזור השנתי."
+                      "הוראה מנהלית לניכוי הוצאות החזקת ותחזוקת השקל הישראלי באיו\"ש מתוך כספי הגבייה המועברים לרש\"פ, בהתאם לחישוב בנק ישראל ובדמי ניהול יחסיים מהמחזור השנתי."
                     </p>
                   </div>
                 </div>
@@ -1167,7 +1181,7 @@ export default function App() {
               <div className="p-3.5 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-xs font-bold text-amber-500 block mb-1">ניתוח סיכונים ובג״ץ (Red Team Assessment):</span>
+                  <span className="text-xs font-bold text-amber-500 block mb-1">ניתוח סיכונים והערכה משפטית ראשונית:</span>
                   <p className="text-sm text-slate-300 leading-relaxed">{selectedLever.feasibilityAndRisks}</p>
                 </div>
               </div>
@@ -1217,10 +1231,10 @@ export default function App() {
       <footer className="border-t border-slate-900 bg-slate-950 py-6 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-between gap-4">
           <p>
-            מסמך מדיניות ומצגת מנהלים אופרטיבית | מותאם למחלקת המחקר והמדיניות של תנועת רגבים
+            מסמך מדיניות ומצגת מנהלים אופרטיבית | יוזמה אזרחית עצמאית | מודל חשיבה קונספטואלי לדיון
           </p>
           <div className="flex items-center gap-4 text-slate-400">
-            <span>גרסת מחקר: 2026.2 - Red Team Validated (מעודכן)</span>
+            <span>גרסת מחקר: 2026.2 (אב-טיפוס רעיוני לדיון)</span>
             <span>סטנדרט: OECD / WTO / FATF</span>
           </div>
         </div>
