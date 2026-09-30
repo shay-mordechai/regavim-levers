@@ -441,6 +441,7 @@ export default function App() {
                 <div className="pt-2 flex flex-wrap gap-4">
                   <button 
                     onClick={() => setActiveTab('flagship')}
+                    onClick={() => setActiveTab('flagship')}
                     className="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 font-semibold text-white shadow-lg shadow-cyan-900/40 transition flex items-center gap-2 text-sm"
                   >
                     מעבר ישיר ל-3 מנופי הדגל
