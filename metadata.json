@@ -1,0 +1,7 @@
+{
+  "name": "מצגת מנהלים: מנופי מדיניות ולוחמה בירוקרטית",
+  "description": "סינתזה אסטרטגית ומצגת מנהלים של כ-50 מנופים רגולטוריים ובירוקרטיים מול הרשות הפלסטינית עבור תנועת רגבים.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
