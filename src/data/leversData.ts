@@ -758,6 +758,9 @@ export const LEVERS_DATA: Lever[] = [
     feasibilityScore: 5,
     legalShield: 'דיני איסור הלבנת הון וסטנדרט ה-Financial Action Task Force (FATF)',
     isFlagship: true,
+    researchStatus: 'פער יישומי מתועד - ישימות גבוהה',
+    legalAuthority: 'צו אלוף פיקוד המרכז (תיקון צו בדבר איסור הלבנת הון ותאגידים)',
+    feasibilityAndRisks: 'סיכון משפטי בינוני: אימוץ חוקי FATF ו-UBO בשטחי C הוא חיוני ומגובה בסטנדרט בינלאומי. האתגר הוא מנהלי - בניית מנגנון רישום תאגידים וזיהוי נהנים סופיים בתוך המנהל האזרחי.',
   },
   {
     id: 'licensing-monopoly-c',
@@ -775,6 +778,9 @@ export const LEVERS_DATA: Lever[] = [
     impactScore: 5,
     feasibilityScore: 5,
     legalShield: 'חוק המהנדסים והאדריכלים, התשי"ח-1958 וחוק שמאי מקרקעין',
+    researchStatus: 'דורש בחינה משפטית מורכבת - ישימות בינונית/נמוכה',
+    legalAuthority: 'הנחיית ראש המנהל האזרחי וקמ"ט תכנון',
+    feasibilityAndRisks: 'סיכון משפטי גבוה: הדרת אנשי מקצוע פלסטיניים והתניית הרישוי רק באיגודים ישראליים עלולה להיפסל בבג"ץ בגין פגיעה בלתי מידתית בחופש העיסוק והפליה מוסדית בהיעדר עילה ביטחונית ישירה.',
   },
   {
     id: 'heavy-machinery-dual-use',
@@ -792,6 +798,9 @@ export const LEVERS_DATA: Lever[] = [
     impactScore: 5,
     feasibilityScore: 5,
     legalShield: 'חוק הפיקוח על יצוא ביטחוני וצווי הפיקוח על מצרכים ושירותים',
+    researchStatus: 'דורש בחינה משפטית מורכבת - ישימות בינונית',
+    legalAuthority: 'צו אלוף פיקוד המרכז (הכרזה על פריטים דו-שימושיים בגיבוי מתפ"ש)',
+    feasibilityAndRisks: 'סיכון משפטי בינוני-גבוה: סיווג ציוד מכני אזרחי כציוד דו-שימושי ביטחוני דורש חוות דעת מודיעינית מבוססת. החרמת ציוד ללא שימוע והליך תקין תיפסל בבג"ץ בגין פגיעה בלתי מידתית בקניין.',
   },
   {
     id: 'workplace-safety-enforcement',
@@ -809,6 +818,9 @@ export const LEVERS_DATA: Lever[] = [
     impactScore: 4,
     feasibilityScore: 5,
     legalShield: 'פקודת הבטיחות בעבודה (נוסח חדש), התש"ל-1970',
+    researchStatus: 'פער יישומי מתועד - ישימות בינונית',
+    legalAuthority: 'צו אלוף פיקוד המרכז (החלת פקודת הבטיחות בעבודה) ואכיפה של קמ"ט תעסוקה',
+    feasibilityAndRisks: 'סיכון משפטי בינוני: החלת תקני בטיחות היא פעולה סבירה מנהלית, אך תעמוד למבחן בג"ץ אם האכיפה תתבצע באכיפה בררנית (Selective Enforcement) כלפי פלסטינים בלבד ותפסח על אתרי בנייה ישראליים באיו"ש.',
   },
   {
     id: 'cash-restriction-law-c',
@@ -826,6 +838,9 @@ export const LEVERS_DATA: Lever[] = [
     impactScore: 5,
     feasibilityScore: 5,
     legalShield: 'חוק צמצום השימוש במזומן, התשע"ח-2018',
+    researchStatus: 'פער יישומי מתועד - ישימות בינונית',
+    legalAuthority: 'צו אלוף פיקוד המרכז (החלת חוק צמצום השימוש במזומן)',
+    feasibilityAndRisks: 'סיכון משפטי בינוני: אכיפת הגבלות מזומן לגיטימית למאבק בהון שחור, אך דורשת תשתית בנקאית מתפקדת שמאפשרת חלופות תשלום. החרמת כספים מחייבת אכיפה שוויונית והליכי חילוט קפדניים כדי לא להיפסל.',
   },
   {
     id: 'seismic-retrofitting-413',
@@ -843,6 +858,9 @@ export const LEVERS_DATA: Lever[] = [
     impactScore: 4,
     feasibilityScore: 4,
     legalShield: 'חוק התכנון והבנייה (הסדרי בטיחות מבנים)',
+    researchStatus: 'דורש בחינה משפטית מורכבת - ישימות נמוכה',
+    legalAuthority: 'צו אלוף המרכז והנחיות מועצת התכנון העליונה (מת"ע)',
+    feasibilityAndRisks: 'סיכון משפטי גבוה: החלת תקן 413 רטרואקטיבית כמכשיר לסגירת עסקים תזוהה מיד בבג"ץ כצעד פוליטי ענישתי, ותיפסל בגין היעדר תום לב מנהלי ואכיפה בררנית מול התיישבות ישראלית בלתי מוסדרת.',
   },
   {
     id: 'airspace-drones-mapping',
@@ -860,6 +878,9 @@ export const LEVERS_DATA: Lever[] = [
     impactScore: 4,
     feasibilityScore: 5,
     legalShield: 'חוק הטיס, התשע"א-2011 ואמנת שיקגו לתעופה בינלאומית',
+    researchStatus: 'פער יישומי מתועד - ישימות גבוהה',
+    legalAuthority: 'צו אלוף פיקוד המרכז בשילוב רשות התעופה האזרחית (רת"א)',
+    feasibilityAndRisks: 'סיכון משפטי נמוך: המרחב האווירי נתון לריבונות ובקרה ביטחונית ישראלית מלאה. איסור הטסת רחפנים למיפוי בשל סכנת איסוף מודיעין ותעופה אזרחית הוא סביר בהחלט ויזכה לגיבוי.',
   },
   {
     id: 'salvage-excavation-levies',
@@ -877,6 +898,9 @@ export const LEVERS_DATA: Lever[] = [
     impactScore: 4,
     feasibilityScore: 5,
     legalShield: 'חוק העתיקות, התשל"ח-1978 ותקנותיו',
+    researchStatus: 'פער יישומי מתועד - ישימות גבוהה',
+    legalAuthority: 'צו אלוף (דיני עתיקות) ואכיפה על ידי קמ"ט ארכיאולוגיה',
+    feasibilityAndRisks: 'סיכון משפטי נמוך-בינוני: גביית הוצאות חפירת הצלה מיזמים קבועה בחוק העתיקות ומוחלת בישראל באופן גורף. האתגר היחיד הוא עקביות האכיפה מול כל סוגי המיזמים באיו"ש למניעת טענות הפליה.',
   },
   {
     id: 'commercial-vehicle-inspections',
@@ -894,6 +918,9 @@ export const LEVERS_DATA: Lever[] = [
     impactScore: 4,
     feasibilityScore: 5,
     legalShield: 'פקודת התעבורה ותקנות התעבורה (תקני רכב כבד)',
+    researchStatus: 'פער יישומי מתועד - ישימות בינונית',
+    legalAuthority: 'צו אלוף והנחיית המפקח על התעבורה באיו"ש',
+    feasibilityAndRisks: 'סיכון משפטי בינוני: הדרישה לעמידה בתקני בטיחות לגיטימית. עם זאת, התניית הבדיקה במכון *ישראלי* העולה ממניעים כלכליים עלולה להיתפס כאפליה אם המכונים הפלסטיניים מפוקחים על ידי הרשות כדין.',
   },
   {
     id: 'invalidation-pa-degrees',
@@ -911,5 +938,8 @@ export const LEVERS_DATA: Lever[] = [
     impactScore: 4,
     feasibilityScore: 4,
     legalShield: 'חוק המועצה להשכלה גבוהה ופקודת לשכת עורכי הדין',
+    researchStatus: 'דורש בחינה משפטית מורכבת - ישימות נמוכה',
+    legalAuthority: 'הנחיית ראש המנהל האזרחי וקמ"ט תעסוקה',
+    feasibilityAndRisks: 'סיכון משפטי גבוה מאוד: שלילת הכרה בתארים כאמצעי למניעת ייצוג תפגע דרמטית בזכות הגישה לערכאות, ותיפסל בבג"ץ בשל פגיעה חמורה בזכויות אדם וחופש העיסוק ללא תכלית עניינית שוויונית.'
   }
 ];

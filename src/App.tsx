@@ -681,12 +681,22 @@ export default function App() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2 mt-3 md:mt-0">
                         <span className={`text-xs px-3 py-1 rounded-full border font-bold ${catObj?.badgeBg}`}>
                           {catObj?.label}
                         </span>
                         <span className="text-xs px-3 py-1 rounded-full bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold">
                           ציון ישימות: 5/5
+                        </span>
+                        <span className={`text-xs px-3 py-1 rounded-full border font-bold ${
+                          lever.researchStatus.includes('מתועד') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                          lever.researchStatus.includes('בירור') ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' :
+                          'bg-slate-500/10 text-slate-400 border-slate-500/30'
+                        }`}>
+                          {lever.researchStatus}
+                        </span>
+                        <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 font-bold">
+                          {lever.legalAuthority}
                         </span>
                       </div>
                     </div>
@@ -735,6 +745,14 @@ export default function App() {
                         <p className="text-slate-300 text-sm leading-relaxed">
                           {lever.executionStep}
                         </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 p-4 rounded-xl bg-rose-950/20 border border-rose-900/40 flex items-start gap-3">
+                      <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-sm font-bold text-rose-400 block mb-1">היתכנות וסיכונים (Feasibility & Risks):</span>
+                        <p className="text-sm text-rose-200/90 leading-relaxed">{lever.feasibilityAndRisks}</p>
                       </div>
                     </div>
 
@@ -1030,6 +1048,19 @@ export default function App() {
                       <p className="text-xs text-slate-300 line-clamp-3 leading-relaxed">
                         {lever.summary}
                       </p>
+
+                      <div className="flex flex-wrap gap-2 pt-2 mt-auto">
+                        <span className={`text-[10px] px-2 py-0.5 rounded border ${
+                          lever.researchStatus.includes('מתועד') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                          lever.researchStatus.includes('בירור') ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' :
+                          'bg-slate-500/10 text-slate-400 border-slate-500/30'
+                        }`}>
+                          {lever.researchStatus}
+                        </span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+                          {lever.legalAuthority}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
@@ -1078,6 +1109,19 @@ export default function App() {
                 <h3 className="text-2xl font-bold text-white font-['Rubik',sans-serif]">
                   {selectedLever.titleHe}
                 </h3>
+                
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <span className={`text-xs px-2.5 py-1 rounded-full border ${
+                    selectedLever.researchStatus.includes('מתועד') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                    selectedLever.researchStatus.includes('בירור') ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' :
+                    'bg-slate-500/10 text-slate-400 border-slate-500/30'
+                  }`}>
+                    {selectedLever.researchStatus}
+                  </span>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+                    {selectedLever.legalAuthority}
+                  </span>
+                </div>
               </div>
               <button
                 onClick={() => setSelectedLever(null)}
@@ -1106,6 +1150,14 @@ export default function App() {
               <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
                 <span className="text-xs font-bold text-emerald-400 block mb-1">צעד ביצועי נדרש:</span>
                 <p className="text-slate-300 leading-relaxed">{selectedLever.executionStep}</p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-900/40 flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                <div>
+                  <span className="text-xs font-bold text-rose-400 block mb-1">היתכנות וסיכונים (Feasibility & Risks):</span>
+                  <p className="text-sm text-rose-200/90 leading-relaxed">{selectedLever.feasibilityAndRisks}</p>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
