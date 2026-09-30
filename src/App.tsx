@@ -86,7 +86,8 @@ export default function App() {
         lever.titleEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
         lever.summary.includes(searchQuery) ||
         lever.governingAuthority.includes(searchQuery) ||
-        lever.legalShield.includes(searchQuery);
+        lever.legalShield.includes(searchQuery) ||
+        (lever.legalAuthority && lever.legalAuthority.includes(searchQuery));
       return matchesCat && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
@@ -341,6 +342,10 @@ export default function App() {
                 <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-800 text-cyan-300 font-mono">
                   רגבים אסטרטגיה
                 </span>
+                <span className="flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  v2026.2 Live
+                </span>
               </div>
               <p className="text-xs text-slate-400">
                 סינתזה ביצועית של 52 מנופים אזרחיים, כלכליים ומנהליים מול הרשות הפלסטינית
@@ -475,9 +480,9 @@ export default function App() {
                 <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">
                   <Gavel className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-white">חסינות משפטית ובינלאומית</h3>
+                <h3 className="text-lg font-bold text-white">עמידות משפטית ומנהלית מוגברת</h3>
                 <p className="text-sm text-slate-300 leading-relaxed">
-                  ארה"ב, האיחוד האירופי ובית המשפט העליון אינם יכולים לגנות מדינה שאוכפת חוקי בטיחות מזון, מניעת אסבסט, תקני בטיחות רכב או כללי מאבק בהלבנת הון (FATF). הכלים נשענים על סטנדרטים בינלאומיים לגיטימיים.
+                  הקהילה הבינלאומית ובית המשפט העליון מכירים בסמכות המנהלית המובהקת לאכוף חוקי בטיחות מזון, מניעת אסבסט, תקני בטיחות רכב או כללי מאבק בהלבנת הון (FATF). הכלים נשענים על סטנדרטים בינלאומיים לגיטימיים.
                 </p>
               </div>
 
@@ -525,13 +530,13 @@ export default function App() {
                     <tr className="hover:bg-slate-800/30">
                       <td className="py-3.5 px-4 font-medium text-slate-300">עמידות בינלאומית</td>
                       <td className="py-3.5 px-4 text-slate-400">גינויים באו"ם, לחץ אמריקאי וסנקציות</td>
-                      <td className="py-3.5 px-4 text-cyan-300 font-medium">חסין: הגנה על בריאות, סביבה ותקינה</td>
+                      <td className="py-3.5 px-4 text-cyan-300 font-medium">עמידות גבוהה: הגנה מבוססת על בריאות הציבור, סביבה ותקינה</td>
                       <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">אי-יכולת של האיחוד לתקוף תקני איכות</td>
                     </tr>
                     <tr className="hover:bg-slate-800/30">
                       <td className="py-3.5 px-4 font-medium text-slate-300">השפעה כלכלית</td>
                       <td className="py-3.5 px-4 text-slate-400">קיזוז פוליטי שמשוחרר תחת לחץ זר</td>
-                      <td className="py-3.5 px-4 text-cyan-300 font-medium">שאיבת מאות מיליונים כחובות מסחריים</td>
+                      <td className="py-3.5 px-4 text-cyan-300 font-medium">הסדרת חובות מסחריים וקיזוז עלויות שירות ריאליות</td>
                       <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">בלתי הפיך ומתמשך חודש בחודשו</td>
                     </tr>
                     <tr className="hover:bg-slate-800/30">
@@ -690,13 +695,15 @@ export default function App() {
                           ציון ישימות: 5/5
                         </span>
                         <span className={`text-xs px-3 py-1 rounded-full border font-bold ${
-                          lever.researchStatus.includes('מתועד') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                          lever.researchStatus.includes('בירור') ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' :
+                          lever.researchStatus?.includes('גבוהה') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                          lever.researchStatus?.includes('בינונית') ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+                          lever.researchStatus?.includes('נמוכה') || lever.researchStatus?.includes('מורכבת') ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' :
                           'bg-slate-500/10 text-slate-400 border-slate-500/30'
                         }`}>
                           {lever.researchStatus}
                         </span>
-                        <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 font-bold">
+                        <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 font-bold flex items-center gap-1">
+                          <Gavel className="w-3.5 h-3.5" />
                           {lever.legalAuthority}
                         </span>
                       </div>
@@ -749,11 +756,11 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="mt-6 p-4 rounded-xl bg-rose-950/20 border border-rose-900/40 flex items-start gap-3">
-                      <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                    <div className="mt-6 p-4 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
+                      <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                       <div>
-                        <span className="text-sm font-bold text-rose-400 block mb-1">היתכנות וסיכונים (Feasibility & Risks):</span>
-                        <p className="text-sm text-rose-200/90 leading-relaxed">{lever.feasibilityAndRisks}</p>
+                        <span className="text-sm font-bold text-amber-500 block mb-1">ניתוח סיכונים ובג״ץ (Red Team Assessment):</span>
+                        <p className="text-sm text-slate-300 leading-relaxed">{lever.feasibilityAndRisks}</p>
                       </div>
                     </div>
 
@@ -1021,7 +1028,7 @@ export default function App() {
                   <div
                     key={lever.id}
                     onClick={() => setSelectedLever(lever)}
-                    className="p-5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-850 cursor-pointer transition-all flex flex-col justify-between space-y-3 group shadow-md"
+                    className="p-5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-900 cursor-pointer transition-all flex flex-col justify-between space-y-3 group shadow-md"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
@@ -1052,13 +1059,15 @@ export default function App() {
 
                       <div className="flex flex-wrap gap-2 pt-2 mt-auto">
                         <span className={`text-[10px] px-2 py-0.5 rounded border ${
-                          lever.researchStatus.includes('מתועד') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                          lever.researchStatus.includes('בירור') ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' :
+                          lever.researchStatus?.includes('גבוהה') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                          lever.researchStatus?.includes('בינונית') ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+                          lever.researchStatus?.includes('נמוכה') || lever.researchStatus?.includes('מורכבת') ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' :
                           'bg-slate-500/10 text-slate-400 border-slate-500/30'
                         }`}>
                           {lever.researchStatus}
                         </span>
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
+                          <Gavel className="w-3 h-3" />
                           {lever.legalAuthority}
                         </span>
                       </div>
@@ -1113,13 +1122,15 @@ export default function App() {
                 
                 <div className="flex flex-wrap gap-2 mt-3">
                   <span className={`text-xs px-2.5 py-1 rounded-full border ${
-                    selectedLever.researchStatus.includes('מתועד') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                    selectedLever.researchStatus.includes('בירור') ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' :
+                    selectedLever.researchStatus?.includes('גבוהה') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                    selectedLever.researchStatus?.includes('בינונית') ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+                    selectedLever.researchStatus?.includes('נמוכה') || selectedLever.researchStatus?.includes('מורכבת') ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' :
                     'bg-slate-500/10 text-slate-400 border-slate-500/30'
                   }`}>
                     {selectedLever.researchStatus}
                   </span>
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
+                    <Gavel className="w-3.5 h-3.5" />
                     {selectedLever.legalAuthority}
                   </span>
                 </div>
@@ -1153,11 +1164,11 @@ export default function App() {
                 <p className="text-slate-300 leading-relaxed">{selectedLever.executionStep}</p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-900/40 flex items-start gap-3">
-                <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+              <div className="p-3.5 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-xs font-bold text-rose-400 block mb-1">היתכנות וסיכונים (Feasibility & Risks):</span>
-                  <p className="text-sm text-rose-200/90 leading-relaxed">{selectedLever.feasibilityAndRisks}</p>
+                  <span className="text-xs font-bold text-amber-500 block mb-1">ניתוח סיכונים ובג״ץ (Red Team Assessment):</span>
+                  <p className="text-sm text-slate-300 leading-relaxed">{selectedLever.feasibilityAndRisks}</p>
                 </div>
               </div>
 
@@ -1209,7 +1220,7 @@ export default function App() {
             מסמך מדיניות ומצגת מנהלים אופרטיבית | מותאם למחלקת המחקר והמדיניות של תנועת רגבים
           </p>
           <div className="flex items-center gap-4 text-slate-400">
-            <span>גרסת מחקר: 2026.1</span>
+            <span>גרסת מחקר: 2026.2 - Red Team Validated (מעודכן)</span>
             <span>סטנדרט: OECD / WTO / FATF</span>
           </div>
         </div>
