@@ -87,7 +87,7 @@ export default function App() {
         lever.summary.includes(searchQuery) ||
         lever.governingAuthority.includes(searchQuery) ||
         lever.legalShield.includes(searchQuery) ||
-        (lever.legalAuthority && lever.legalAuthority.includes(searchQuery));
+        (lever.legalSource && lever.legalSource.includes(searchQuery));
       return matchesCat && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
@@ -446,7 +446,6 @@ export default function App() {
                 <div className="pt-2 flex flex-wrap gap-4">
                   <button 
                     onClick={() => setActiveTab('flagship')}
-                    onClick={() => setActiveTab('flagship')}
                     className="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 font-semibold text-white shadow-lg shadow-cyan-900/40 transition flex items-center gap-2 text-sm"
                   >
                     מעבר ישיר ל-3 מנופי הדגל
@@ -549,20 +548,20 @@ export default function App() {
                 </table>
               </div>
             </div>
+
+            {/* Disclaimer */}
+            <div className="mt-8 p-5 rounded-2xl bg-slate-900 border border-slate-700/50 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-2 h-full bg-cyan-600/50"></div>
+              <h4 className="text-cyan-400 font-bold text-sm mb-2 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4" />
+                הערת שקיפות (Disclaimer)
+              </h4>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                מערכת זו הינה <strong>מודל רעיוני (Conceptual Framework)</strong> שנוצר כיוזמה אזרחית בעזרת כלי בינה מלאכותית (AI) לשם סיעור מוחות. המנופים המוצגים <strong>אינם מהווים חוות דעת משפטית</strong>. חלקם מתארים פערים יישומיים קיימים, בעוד אחרים הם בגדר הצעות מדיניות חדשות הדורשות הוכחת סמכות, חקיקה, או התאמה להסכמי הסחר ופרוטוקול פריז.
+              </p>
+            </div>
           </div>
         )}
-
-        {/* Disclaimer */}
-        <div className="mt-8 p-5 rounded-2xl bg-slate-900 border border-slate-700/50 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-2 h-full bg-cyan-600/50"></div>
-          <h4 className="text-cyan-400 font-bold text-sm mb-2 flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4" />
-            הערת שקיפות (Disclaimer)
-          </h4>
-          <p className="text-sm text-slate-300 leading-relaxed">
-            מערכת זו הינה <strong>מודל רעיוני (Conceptual Framework)</strong> שנוצר כיוזמה אזרחית בעזרת כלי בינה מלאכותית (AI) לשם סיעור מוחות. המנופים המוצגים <strong>אינם מהווים חוות דעת משפטית</strong>. חלקם מתארים פערים יישומיים קיימים, בעוד אחרים הם בגדר הצעות מדיניות חדשות הדורשות הוכחת סמכות, חקיקה, או התאמה להסכמי הסחר ופרוטוקול פריז.
-          </p>
-        </div>
 
         {/* TAB 2: STRATEGIC CATEGORIZATION */}
         {activeTab === 'categories' && (
@@ -666,7 +665,7 @@ export default function App() {
                 מנופי הדגל של המחקר (Top Tier Selection)
               </h2>
               <p className="text-slate-400 text-sm mt-1 max-w-3xl">
-                שלושת המנופים הבאים נבחרו מתוך כלל המאגר כבעלי האימפקט הכלכלי הגבוה ביותר, עמידות משפטית בינלאומית מושלמת וישימות מנהלית מיידית ללא צורך בחקיקה בכנסת.
+                שלושת המנופים הבאים נבחרו מתוך כלל המאגר כ בעלי האימפקט הכלכלי הגבוה ביותר, עמידות משפטית בינלאומית מושלמת וישימות מנהלית מיידית ללא צורך בחקיקה בכנסת.
               </p>
             </div>
 
@@ -703,21 +702,23 @@ export default function App() {
                         <span className={`text-xs px-3 py-1 rounded-full border font-bold ${catObj?.badgeBg}`}>
                           {catObj?.label}
                         </span>
-                        <span className="text-xs px-3 py-1 rounded-full bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold">
-                          ציון ישימות: 5/5
+                        <span className="text-xs px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-bold">
+                          סיווג: {lever.classification === 'implemented' ? 'יושם' : lever.classification === 'documented_gap' ? 'פער מתועד' : lever.classification === 'needs_investigation' ? 'דרוש בירור' : lever.classification === 'policy_proposal' ? 'הצעת מדיניות' : lever.classification === 'legal_review_required' ? 'טעון בירור משפטי' : 'לא ישים'}
                         </span>
                         <span className={`text-xs px-3 py-1 rounded-full border font-bold ${
-                          lever.researchStatus?.includes('גבוהה') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                          lever.researchStatus?.includes('בינונית') ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
-                          lever.researchStatus?.includes('נמוכה') || lever.researchStatus?.includes('מורכבת') ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' :
-                          'bg-slate-500/10 text-slate-400 border-slate-500/30'
+                          lever.certaintyLevel === 'Verified' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                          lever.certaintyLevel === 'Hypothesis' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' :
+                          lever.certaintyLevel === 'Requires Legal Review' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+                          'bg-rose-500/10 text-rose-400 border-rose-500/30'
                         }`}>
-                          {lever.researchStatus}
+                          {lever.certaintyLevel}
                         </span>
-                        <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 font-bold flex items-center gap-1">
-                          <Gavel className="w-3.5 h-3.5" />
-                          {lever.legalAuthority}
-                        </span>
+                        {lever.legalSource && (
+                          <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
+                            <Gavel className="w-3.5 h-3.5" />
+                            {lever.legalSource}
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -768,13 +769,15 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="mt-6 p-4 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
-                      <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                      <div>
-                        <span className="text-sm font-bold text-amber-500 block mb-1">ניתוח סיכונים והערכה משפטית ראשונית:</span>
-                        <p className="text-sm text-slate-300 leading-relaxed">{lever.feasibilityAndRisks}</p>
+                    {lever.evidenceOfGap && (
+                      <div className="mt-6 p-4 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
+                        <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="text-sm font-bold text-amber-500 block mb-1">הערות בירור ומחקר:</span>
+                          <p className="text-sm text-slate-300 leading-relaxed">{lever.evidenceOfGap}</p>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Operational Legal Shield Footer */}
                     <div className="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4 bg-slate-950/40 p-4 rounded-xl">
@@ -828,43 +831,14 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white font-['Rubik',sans-serif]">
-                      שלב 1: הנחת שאילתות פרלמנטריות ממוקדות תפוקה (Throughput Audits)
+                      שלב 1: מיפוי פערי רגולציה ואיסוף נתונים (Regulatory Gap Analysis)
                     </h3>
-                    <p className="text-xs text-slate-400">חשיפת צווארי הבקבוק המנהליים מעל דוכן הכנסת ובוועדת הכספים</p>
+                    <p className="text-xs text-slate-400">מחקר תשתיתי לאיתור פערים בהחלת הדין והרגולציה</p>
                   </div>
                 </div>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  השיח הפרלמנטרי תקוע בוויכוחים עקרוניים על סמכויות. מחלקת המדיניות של רגבים תנסח עבור חברי כנסת שאילתות ישירות המאלצות את פקידי האוצר ורשות המסים למסור נתונים מדויקים על העלמת עין רגולטורית:
+                  איסוף שיטתי של פניות חופש מידע (FOI), שאילתות פרלמנטריות ובקשות נתונים מרשויות האכיפה בישראל במטרה להבין את תמונת המצב המדויקת של אכיפת הרגולציה והיעדר הפיקוח.
                 </p>
-
-                {/* Question Box */}
-                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-cyan-400">נוסח מוכן לשאילתה ישירה לשר האוצר / שר הכלכלה:</span>
-                    <button
-                      onClick={() => copyToClipboard(
-                        `לכבוד שר האוצר / שר הכלכלה,
-הנדון: שאילתה דחופה בעניין הפטור מבדיקות מכון התקנים לסחורות המיובאות לרשות הפלסטינית
-1. כמה מכולות יבוא מכלל הנמלים יועדו בשנים 2024-2025 לשטחי הרשות הפלסטינית?
-2. כמה מתוכן עברו בדיקה פיזית או מעבדתית של מכון התקנים הישראלי לפני כניסתן?
-3. מהו הבסיס המשפטי לנוהל הפוטר סחורות אלו מבדיקות תקינה ביחס לבריאות ובטיחות הציבור?
-4. האם נבחנה הערכת הסיכון של זליגת טובין שאינם עומדים בתקן הישראלי מתוך הרשות לשווקי ישראל?`,
-                        'query-1'
-                      )}
-                      className="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1 hover:bg-slate-700"
-                    >
-                      <Copy className="w-3.5 h-3.5" />
-                      {copiedText === 'query-1' ? 'הועתק!' : 'העתק שאילתה'}
-                    </button>
-                  </div>
-                  <pre className="text-xs text-slate-300 font-sans whitespace-pre-wrap leading-relaxed p-2 bg-slate-900/60 rounded">
-                    {`"לכבוד שר האוצר ושר הכלכלה:
-1. כמה מכולות יבוא מכלל הנמלים יועדו בשנים 2024-2025 לשטחי הרשות הפלסטינית?
-2. כמה מתוכן עברו בדיקה פיזית או מעבדתית של מכון התקנים הישראלי לפני כניסתן?
-3. מהו הבסיס המשפטי המדויק להענקת פטור גורף מסחורות אלו בנמלי הים?
-4. האם נבחנה הערכת הנזק והזליגה של מוצרים מסוכנים אלו לתוך ישראל?"`}
-                  </pre>
-                </div>
               </div>
 
               {/* Step 2 */}
@@ -875,28 +849,14 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white font-['Rubik',sans-serif]">
-                      שלב 2: גיבוש מסמך מדיניות והצעת מחליטים לקבינט (Cabinet Resolution Pack)
+                      שלב 2: גיבוש מסמכי היתכנות משפטית (Drafting Legal Feasibility Memos)
                     </h3>
-                    <p className="text-xs text-slate-400">הגשת מסמך אופרטיבי שלם וחתום לשר האוצר ולשר במשרד הביטחון</p>
+                    <p className="text-xs text-slate-400">הכנת חוות דעת מקצועיות המנתחות את הסמכויות הקיימות</p>
                   </div>
                 </div>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  הכנת "ערכת החלטה" (Turnkey Policy Brief) המכילה את כל הניסוחים המשפטיים הנדרשים לחתימה מיידית, ללא צורך במחקר נוסף מצד הפקידות:
+                  ניסוח סקירות משפטיות הבוחנות אילו מנופים עומדים בדרישות הדין הבינלאומי (כגון הסכמי ה-WTO ופרוטוקול פריז) ואילו מחייבים התאמת חקיקה או צווי אלוף.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                    <span className="text-xs font-bold text-amber-400">טיוטת צו צבאי (UBO בשטחי C):</span>
-                    <p className="text-xs text-slate-300 leading-relaxed">
-                      "צו בדבר מניעת הלבנת הון בעסקאות מקרקעין (יהודה והשומרון) - התניית רישום זכויות מקרקעין של תאגידים זרים בגילוי מלא ומאומת של בעלי השליטה הסופיים (Ultimate Beneficial Owners)."
-                    </p>
-                  </div>
-                  <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                    <span className="text-xs font-bold text-emerald-400">הוראת שעה לשר האוצר (דמי סניוראז׳):</span>
-                    <p className="text-xs text-slate-300 leading-relaxed">
-                      "הוראה מנהלית לניכוי הוצאות החזקת ותחזוקת השקל הישראלי באיו\"ש מתוך כספי הגבייה המועברים לרש\"פ, בהתאם לחישוב בנק ישראל ובדמי ניהול יחסיים מהמחזור השנתי."
-                    </p>
-                  </div>
-                </div>
               </div>
 
               {/* Step 3 */}
@@ -907,17 +867,14 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white font-['Rubik',sans-serif]">
-                      שלב 3: מיצוי הליכים מנהלי ועצומת עתירה לבג"ץ (Pre-Litigation Action)
+                      שלב 3: בחינת משמעויות רוחב והשפעות מאקרו (Macro-Economic Impact Assessment)
                     </h3>
-                    <p className="text-xs text-slate-400">יצירת מנוף לחץ משפטי על רשות המסים והמנהל האזרחי</p>
+                    <p className="text-xs text-slate-400">הערכת השלכות על שרשראות האספקה והביטחון הלאומי</p>
                   </div>
                 </div>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  הגשת מכתב מיצוי הליכים מקדים מטעם המחלקה המשפטית של תנועת רגבים ליועצת המשפטית לממשלה ולמנהל רשות המסים, הטוען לאפליה אסורה: <strong className="text-slate-100">מדוע יבואן ישראלי מחויב לשלם אלפי שקלים למכון התקנים ולהמתין שבועות, בעוד יבואן פלסטיני זוכה לפטור גורף המסכן את הציבור?</strong>
+                  הצגת החלופות שנבחנו לפורומים מקצועיים של קבלת החלטות כדי לאמוד סיכונים, התכנות כלכלית ריאלית, ותגובות נגד אפשריות במערכת הפיננסית העולמית.
                 </p>
-                <div className="p-3 bg-slate-950/70 border border-emerald-500/30 rounded-lg text-xs text-emerald-300">
-                  צעד זה מייצר הכרח לפקידות הממשלתית לבחון את המדיניות, ומאלץ את המערכת לבטל את הפטור המנהלי גם ללא צורך בהכרעה שיפוטית בבג"ץ.
-                </div>
               </div>
             </div>
           </div>
@@ -1071,17 +1028,19 @@ export default function App() {
 
                       <div className="flex flex-wrap gap-2 pt-2 mt-auto">
                         <span className={`text-[10px] px-2 py-0.5 rounded border ${
-                          lever.researchStatus?.includes('גבוהה') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                          lever.researchStatus?.includes('בינונית') ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
-                          lever.researchStatus?.includes('נמוכה') || lever.researchStatus?.includes('מורכבת') ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' :
-                          'bg-slate-500/10 text-slate-400 border-slate-500/30'
+                          lever.certaintyLevel === 'Verified' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                          lever.certaintyLevel === 'Hypothesis' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' :
+                          lever.certaintyLevel === 'Requires Legal Review' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+                          'bg-rose-500/10 text-rose-400 border-rose-500/30'
                         }`}>
-                          {lever.researchStatus}
+                          {lever.certaintyLevel}
                         </span>
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
-                          <Gavel className="w-3 h-3" />
-                          {lever.legalAuthority}
-                        </span>
+                        {lever.legalSource && (
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
+                            <Gavel className="w-3 h-3" />
+                            {lever.legalSource}
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -1133,18 +1092,20 @@ export default function App() {
                 </h3>
                 
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <span className={`text-xs px-2.5 py-1 rounded-full border ${
-                    selectedLever.researchStatus?.includes('גבוהה') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                    selectedLever.researchStatus?.includes('בינונית') ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
-                    selectedLever.researchStatus?.includes('נמוכה') || selectedLever.researchStatus?.includes('מורכבת') ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' :
-                    'bg-slate-500/10 text-slate-400 border-slate-500/30'
+                  <span className={`text-xs px-2.5 py-1 rounded-full border font-bold ${
+                    selectedLever.certaintyLevel === 'Verified' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                    selectedLever.certaintyLevel === 'Hypothesis' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' :
+                    selectedLever.certaintyLevel === 'Requires Legal Review' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+                    'bg-rose-500/10 text-rose-400 border-rose-500/30'
                   }`}>
-                    {selectedLever.researchStatus}
+                    {selectedLever.certaintyLevel}
                   </span>
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
-                    <Gavel className="w-3.5 h-3.5" />
-                    {selectedLever.legalAuthority}
-                  </span>
+                  {selectedLever.legalSource && (
+                    <span className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
+                      <Gavel className="w-3.5 h-3.5" />
+                      {selectedLever.legalSource}
+                    </span>
+                  )}
                 </div>
               </div>
               <button
@@ -1176,13 +1137,15 @@ export default function App() {
                 <p className="text-slate-300 leading-relaxed">{selectedLever.executionStep}</p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
-                <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-xs font-bold text-amber-500 block mb-1">ניתוח סיכונים והערכה משפטית ראשונית:</span>
-                  <p className="text-sm text-slate-300 leading-relaxed">{selectedLever.feasibilityAndRisks}</p>
+              {selectedLever.evidenceOfGap && (
+                <div className="p-3.5 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
+                  <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-sm font-bold text-amber-500 block mb-1">הערות בירור ומחקר:</span>
+                    <p className="text-sm text-slate-300 leading-relaxed">{selectedLever.evidenceOfGap}</p>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <div className="p-3 rounded-lg bg-slate-950/80 border border-slate-800 text-xs">
@@ -1233,7 +1196,6 @@ export default function App() {
           </p>
           <div className="flex items-center gap-4 text-slate-400">
             <span>גרסת מחקר: 2026.2 (אב-טיפוס רעיוני לדיון)</span>
-            <span>סטנדרט: OECD / WTO / FATF</span>
           </div>
         </div>
       </footer>
