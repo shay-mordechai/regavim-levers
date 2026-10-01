@@ -289,34 +289,34 @@ export default function App() {
     },
     {
       title: 'מפת דרכים אופרטיבית לתנועת רגבים',
-      subtitle: '3 צעדים מעשיים לקידום מיידי מול משרדי הממשלה והכנסת',
+      subtitle: '3 צעדים מעשיים למחקר ובחינת מדיניות',
       tag: 'תוכנית עבודה 2026',
       content: (
         <div className="space-y-4">
           <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex gap-4 items-start">
             <div className="p-2 rounded-lg bg-cyan-500/20 text-cyan-400 font-bold text-lg shrink-0">1</div>
             <div>
-              <h4 className="font-bold text-slate-100 text-base mb-1">שאילתות פרלמנטריות ממוקדות צווארי בקבוק (Throughput Audits)</h4>
+              <h4 className="font-bold text-slate-100 text-base mb-1">בדיקת היתכנות משפטית (Legal Feasibility Review)</h4>
               <p className="text-sm text-slate-300">
-                הגשת שאילתות ישירות לשר האוצר ולשר הכלכלה בוועדת הכספים ובוועדת חוץ וביטחון: דרישת נתונים על מספר מכולות היבוא הפלסטיניות שנבדקות במכון התקנים, והיקף הגבייה בגין שירותי מטבע וסניוראז׳.
+                מיפוי צווים צבאיים וחקיקה ישראלית קיימת כדי לאמת האם הסמכות המוצעת אכן קיימת בפועל ובאיזה מדרג נורמטיבי.
               </p>
             </div>
           </div>
           <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex gap-4 items-start">
             <div className="p-2 rounded-lg bg-amber-500/20 text-amber-400 font-bold text-lg shrink-0">2</div>
             <div>
-              <h4 className="font-bold text-slate-100 text-base mb-1">ניסוח והגשת 'הצעת מחליטים' לשר האוצר ולקבינט</h4>
+              <h4 className="font-bold text-slate-100 text-base mb-1">איסוף ראיות ונתונים (FOIA)</h4>
               <p className="text-sm text-slate-300">
-                הכנת פאקט חקיקתי מוכן לחתימה: טיוטת צו אלוף הפיקוד להחלת חובת UBO במקרקעי שטחי C, וטיוטת הוראת שעה לגביית הוצאות בנק ישראל מכספי הסליקה של הרשות.
+                הגשת בקשות חופש מידע ממוקדות למשרדי ממשלה כדי לוודא שפער הרגולציה המתואר אכן מתקיים בפועל ולא מבוסס על השערות.
               </p>
             </div>
           </div>
           <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex gap-4 items-start">
             <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold text-lg shrink-0">3</div>
             <div>
-              <h4 className="font-bold text-slate-100 text-base mb-1">מיצוי הליכים ופנייה משפטית מקדמית למנהל המכס וליועמ"ש</h4>
+              <h4 className="font-bold text-slate-100 text-base mb-1">גיבוש מסמכי מדיניות (Drafting Policy Proposals)</h4>
               <p className="text-sm text-slate-300">
-                פנייה רשמית של מחלקת המשפט ברגבים בדרישה לנמק מדוע המכס מעניק פטור בלתי חוקי מתקינה ליבוא פלסטיני, כצעד מקדים להגשת עתירה לבג"ץ על הפליה ואפליה רגולטורית לרעה של אזרחי ישראל.
+                רק לאחר אימות הסמכות והעובדות, ניסוח המלצות מדיניות אופרטיביות להצגה בפני הדרגים המקצועיים במשרדי הממשלה.
               </p>
             </div>
           </div>
@@ -1103,7 +1103,7 @@ export default function App() {
                   {selectedLever.legalSource && (
                     <span className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
                       <Gavel className="w-3.5 h-3.5" />
-                      {selectedLever.legalSource}
+                      {selectedLever.legalSource.name}
                     </span>
                   )}
                 </div>
@@ -1137,11 +1137,21 @@ export default function App() {
                 <p className="text-slate-300 leading-relaxed">{selectedLever.executionStep}</p>
               </div>
 
+              {selectedLever.legalAnalysis && (
+                <div className="p-3.5 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
+                  <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-xs font-bold text-amber-500 block mb-1">ניתוח והערכה משפטית (Legal Analysis):</span>
+                    <p className="text-sm text-slate-300 leading-relaxed">{selectedLever.legalAnalysis}</p>
+                  </div>
+                </div>
+              )}
+
               {selectedLever.evidenceOfGap && (
                 <div className="p-3.5 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
                   <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-sm font-bold text-amber-500 block mb-1">הערות בירור ומחקר:</span>
+                    <span className="text-xs font-bold text-amber-500 block mb-1">ראיות עובדתיות לפער (Evidence):</span>
                     <p className="text-sm text-slate-300 leading-relaxed">{selectedLever.evidenceOfGap}</p>
                   </div>
                 </div>
