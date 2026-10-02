@@ -984,7 +984,7 @@ export default function App() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-extrabold text-white font-['Rubik',sans-serif]">
-                  מאגר {stats.total} רעיונות שנבחנו (מהם {stats.notSupported} חסרי ביסוס)
+                  מאגר {stats.total} רעיונות שנבחנו
                 </h2>
                 <p className="text-slate-400 text-xs mt-0.5">
                   חיפוש, סינון וניתוח מעמיק של כלל כלי המדיניות
