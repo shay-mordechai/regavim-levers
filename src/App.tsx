@@ -87,7 +87,7 @@ export default function App() {
         lever.summary.includes(searchQuery) ||
         lever.governingAuthority.includes(searchQuery) ||
         lever.legalShield.includes(searchQuery) ||
-        (lever.legalSource && lever.legalSource.includes(searchQuery));
+        (lever.legalSource?.name && lever.legalSource?.name?.includes(searchQuery));
       return matchesCat && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
@@ -126,7 +126,7 @@ export default function App() {
               </h4>
               <ul className="text-sm space-y-1 text-slate-300 list-disc list-inside">
                 <li>החלת כללי עולם ראשון (OECD, WTO, FATF) על ישות עוינת</li>
-                <li>חסינות מוחלטת מביקורת בינלאומית תחת כסות הגנה על הציבור</li>
+                <li>הגנה מנהלית עקבית המבוססת על סטנדרטים של בריאות וסביבה</li>
                 <li>שאיבת הון חוקית וקיזוז חשבונאי ישיר מכספי סליקה</li>
                 <li>שיתוק תפוקתי (Throughput) של מנגנוני הרשות מבפנים</li>
               </ul>
@@ -183,7 +183,7 @@ export default function App() {
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-cyan-400 font-bold uppercase tracking-wider block mb-1">הפרצה הרגולטורית</span>
               <p className="text-sm text-slate-300">
-                הפטור הוא הנחיה מנהלית פנימית בלבד. שר האוצר יכול לבטלו מחר בבוקר בנימוק של הגנה על בריאות הציבור ומניעת הברחת מוצרים מסוכנים מהרשות לתוך תחומי הקו הירוק.
+                הפטור הוא הנחיה מנהלית פנימית בלבד. קיימת טענה לפטור מנהלי; יש לבחון את סמכות הביטול המשפטית ומניעת הברחת מוצרים מסוכנים מהרשות לתוך תחומי הקו הירוק.
               </p>
             </div>
           </div>
@@ -197,7 +197,7 @@ export default function App() {
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-emerald-400 font-bold uppercase tracking-wider block mb-1">צעד ביצועי נדרש</span>
               <p className="text-sm text-slate-300">
-                הנחיה מנהלית חתומה של מנהל רשות המסים ושר האוצר המבטלת את נוהל "פטור תקינה לסחורות איו\"ש" – ללא צורך בחקיקה ראשית.
+                הנחיה מנהלית חתומה של מנהל רשות המסים ושר האוצר המבטלת את נוהל "פטור תקינה לסחורות איו\"ש" – בכפוף לבחינת סמכות ומקור משפטי.
               </p>
             </div>
           </div>
@@ -223,7 +223,7 @@ export default function App() {
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-cyan-400 font-bold uppercase tracking-wider block mb-1">הפרצה הרגולטורית</span>
               <p className="text-sm text-slate-300">
-                אין שום חוק בינלאומי המחייב מדינה לספק מטבע יציב בחינם לישות עוינת. ישראל רשאית לדרוש דמי סניוראז׳ (Seigniorage) ואחזקת מטבע על פי עלות תפעולית.
+                בחינת עלויות תפעול וניהול מטבע מול פרוטוקול פריז. ישראל רשאית לדרוש דמי סניוראז׳ (Seigniorage) ואחזקת מטבע על פי עלות תפעולית.
               </p>
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function App() {
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-rose-400 font-bold uppercase tracking-wider block mb-1">משמעות כלכלית</span>
               <p className="text-sm text-slate-300">
-                השתת עמלת ניהול מטבע בדמי ניהול יחסיים ממחזור המזומנים הפלסטיני משמעה קיזוז מיידי של מאות מיליוני ש"ח בשנה ישירות מכספי הסליקה כהחזר הוצאות לגיטימי לבנק ישראל.
+                השתת עמלת ניהול מטבע בדמי ניהול יחסיים ממחזור המזומנים הפלסטיני משמעה פוטנציאל חיוב וקיזוז בכפוף לעיגון משפטי ישירות מכספי הסליקה כהחזר הוצאות לגיטימי לבנק ישראל.
               </p>
             </div>
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
@@ -530,7 +530,7 @@ export default function App() {
                       <td className="py-3.5 px-4 font-medium text-slate-300">עמידות בינלאומית</td>
                       <td className="py-3.5 px-4 text-slate-400">גינויים באו"ם, לחץ אמריקאי וסנקציות</td>
                       <td className="py-3.5 px-4 text-cyan-300 font-medium">עמידות גבוהה: הגנה מבוססת על בריאות הציבור, סביבה ותקינה</td>
-                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">אי-יכולת של האיחוד לתקוף תקני איכות</td>
+                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">קושי משפטי לתקוף דרישות מקצועיות</td>
                     </tr>
                     <tr className="hover:bg-slate-800/30">
                       <td className="py-3.5 px-4 font-medium text-slate-300">השפעה כלכלית</td>
@@ -542,25 +542,14 @@ export default function App() {
                       <td className="py-3.5 px-4 font-medium text-slate-300">כלי יישום נדרש</td>
                       <td className="py-3.5 px-4 text-slate-400">חקיקה ראשית בכנסת / החלטות קבינט סוערות</td>
                       <td className="py-3.5 px-4 text-cyan-300 font-medium">צווים מנהליים, הוראות שעה, נהלי מכס</td>
-                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">ישימות מיידית בחתימת שר/מנכ"ל בלבד</td>
+                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">החלטה מנהלית בכפוף לבחינת סמכות</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
 
-            {/* Disclaimer */}
-            <div className="mt-8 p-5 rounded-2xl bg-slate-900 border border-slate-700/50 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-2 h-full bg-cyan-600/50"></div>
-              <h4 className="text-cyan-400 font-bold text-sm mb-2 flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4" />
-                הערת שקיפות (Disclaimer)
-              </h4>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                מערכת זו הינה <strong>מודל רעיוני (Conceptual Framework)</strong> שנוצר כיוזמה אזרחית בעזרת כלי בינה מלאכותית (AI) לשם סיעור מוחות. המנופים המוצגים <strong>אינם מהווים חוות דעת משפטית</strong>. חלקם מתארים פערים יישומיים קיימים, בעוד אחרים הם בגדר הצעות מדיניות חדשות הדורשות הוכחת סמכות, חקיקה, או התאמה להסכמי הסחר ופרוטוקול פריז.
-              </p>
-            </div>
-          </div>
+            
         )}
 
         {/* TAB 2: STRATEGIC CATEGORIZATION */}
@@ -659,13 +648,13 @@ export default function App() {
           <div className="space-y-8 animate-fadeIn">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-2">
-                <Flame className="w-3.5 h-3.5" /> 3 המנופים הישימים, הקטלניים והחסינים ביותר
+                <Flame className="w-3.5 h-3.5" /> 3 מנופי מדיניות מרכזיים לבחינה והעמקה
               </div>
               <h2 className="text-3xl font-extrabold text-white font-['Rubik',sans-serif]">
                 מנופי הדגל של המחקר (Top Tier Selection)
               </h2>
               <p className="text-slate-400 text-sm mt-1 max-w-3xl">
-                שלושת המנופים הבאים נבחרו מתוך כלל המאגר כ בעלי האימפקט הכלכלי הגבוה ביותר, עמידות משפטית בינלאומית מושלמת וישימות מנהלית מיידית ללא צורך בחקיקה בכנסת.
+                שלושת המנופים הבאים נבחרו מתוך כלל המאגר כ בעלי האימפקט הכלכלי הגבוה ביותר, עמידות משפטית הדורשת בחינה מעמיקה וישימות מנהלית מיידית ללא צורך בחקיקה בכנסת.
               </p>
             </div>
 
@@ -713,10 +702,10 @@ export default function App() {
                         }`}>
                           {lever.certaintyLevel}
                         </span>
-                        {lever.legalSource && (
+                        {lever.legalSource?.name && (
                           <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
                             <Gavel className="w-3.5 h-3.5" />
-                            {lever.legalSource}
+                            {lever.legalSource?.name}
                           </span>
                         )}
                       </div>
@@ -1035,10 +1024,10 @@ export default function App() {
                         }`}>
                           {lever.certaintyLevel}
                         </span>
-                        {lever.legalSource && (
+                        {lever.legalSource?.name && (
                           <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
                             <Gavel className="w-3 h-3" />
-                            {lever.legalSource}
+                            {lever.legalSource?.name}
                           </span>
                         )}
                       </div>

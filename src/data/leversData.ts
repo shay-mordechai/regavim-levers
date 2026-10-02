@@ -20,7 +20,7 @@ export interface Lever {
   executionStep: string;
   governingAuthority: string;
   classification: 'implemented' | 'documented_gap' | 'needs_investigation' | 'policy_proposal' | 'legal_review_required' | 'not_supported';
-  certaintyLevel: 'Verified' | 'Hypothesis' | 'Requires Legal Review' | 'Lacks Evidence';
+  certaintyLevel: 'Requires Legal Review' | 'Hypothesis' | 'Requires Legal Review' | 'Lacks Evidence';
   legalSource?: LegalSource;
   legalAnalysis?: string;
   evidenceOfGap?: string;
@@ -186,7 +186,7 @@ export const LEVERS_DATA: Lever[] = [
     summary: 'איסור יבוא חלפים פיראטיים או משומשים ללא תעודת יצרן מקורי למניעת גניבות רכב ותאונות דרכים.',
     currentSituation: 'שוק הרכב הפלסטיני ומשחטות הרכב באיו"ש ניזונים מיבוא מסיבי של חלפים זולים ולא מקוריים מסין ומהמפרץ דרך הנמלים.',
     regulatoryGap: 'משרד התחבורה והמכס יכולים לדרוש תעודת OEM לכל רכיב בטיחותי (בלמים, היגוי, מנועים) בטענה של בטיחות בדרכים.',
-    economicImpact: 'החרמת מכולות חלפים, ייקור אחזקת הרכב ברש"פ, וחיסול משחטות הרכב והכלכלה השחורה הנלווית להן.',
+    economicImpact: 'הגבלת שימוש בכלי צמ"ה שאינם מאושרים למניעת פריצת צירים בלתי חוקית.',
     executionStep: 'הוראת מנהל תחום רכב במשרד התחבורה בשיתוף המכס על הגבלת שחרור חלקי חילוף רק לבעלי תעודת יצרן רשמית.',
     governingAuthority: 'משרד התחבורה ומינהל המכס',
     classification: 'policy_proposal',
@@ -240,7 +240,7 @@ export const LEVERS_DATA: Lever[] = [
     summary: 'ביטול מעמד הפטור ההומניטרי ממכס ומע"מ לעשרות ארגוני סיוע הפועלים ברשות הפלסטינית.',
     currentSituation: 'ארגוני סיוע בינלאומיים (סוכנויות או"ם, USAID, עמותות אירופיות) מייבאים ציוד, רכבים ותשתיות בפטור מלא ממיסים.',
     regulatoryGap: 'משרד האוצר יכול לבטל תעודות פטור אלו בנימוק של היעדר שקיפות פיננסית וחשש מזליגת משאבים לגורמי טרור.',
-    economicImpact: 'הטלת 17% מע"מ ומסי יבוא מלאים; שאיבת מאות מיליוני דולרים של כספי סיוע בינלאומי ישירות לקופת המדינה או צמצום פעילותם.',
+    economicImpact: 'הטלת 18% מע"מ ומסי יבוא מלאים; שאיבת מאות מיליוני דולרים של כספי סיוע בינלאומי ישירות לקופת המדינה או צמצום פעילותם.',
     executionStep: 'ביטול מנהלי של תעודות פטור ממכס ומע"מ (Tax Exemption Certificates) לארגונים שאינם רשומים ומפוקחים כדין בישראל.',
     governingAuthority: 'משרד האוצר (רשות המסים) ומשרד החוץ',
     classification: 'policy_proposal',
@@ -612,7 +612,7 @@ export const LEVERS_DATA: Lever[] = [
     executionStep: 'בחינת ביצוע קריאת מונים מתאימה ואכיפת אמות המידה על ידי חברת החשמל בישראל.',
     governingAuthority: 'רשות החשמל וחברת החשמל לישראל',
     classification: 'policy_proposal',
-    certaintyLevel: 'Verified',
+    certaintyLevel: 'Requires Legal Review',
     legalSource: { name: 'אמות המידה של רשות החשמל', type: 'Administrative Directive', lastChecked: '2026-10-01' },
     legalShield: 'חוק משק החשמל ואמות המידה לצרכנים',
   },
@@ -666,7 +666,7 @@ export const LEVERS_DATA: Lever[] = [
     executionStep: 'מבצעי אכיפה במעברים של המשרד להגנת הסביבה בשיתוף משטרת ישראל.',
     governingAuthority: 'המשרד להגנת הסביבה והמכס',
     classification: 'documented_gap',
-    certaintyLevel: 'Verified',
+    certaintyLevel: 'Requires Legal Review',
     legalSource: { name: 'אמנת באזל', type: 'International Agreement', lastChecked: '2026-10-01' },
     legalShield: 'אמנת באזל וחוקי שמירת הניקיון',
   },
