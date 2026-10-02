@@ -87,7 +87,7 @@ export default function App() {
         lever.summary.includes(searchQuery) ||
         lever.governingAuthority.includes(searchQuery) ||
         lever.legalShield.includes(searchQuery) ||
-        (lever.legalSource?.name && lever.legalSource?.name?.includes(searchQuery));
+        (lever.legalSource && lever.legalSource.includes(searchQuery));
       return matchesCat && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
@@ -549,7 +549,18 @@ export default function App() {
               </div>
             </div>
 
-            
+            {/* Disclaimer */}
+            <div className="mt-8 p-5 rounded-2xl bg-slate-900 border border-slate-700/50 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-2 h-full bg-cyan-600/50"></div>
+              <h4 className="text-cyan-400 font-bold text-sm mb-2 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4" />
+                הערת שקיפות (Disclaimer)
+              </h4>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                מערכת זו הינה <strong>מודל רעיוני (Conceptual Framework)</strong> שנוצר כיוזמה אזרחית בעזרת כלי בינה מלאכותית (AI) לשם סיעור מוחות. המנופים המוצגים <strong>אינם מהווים חוות דעת משפטית</strong>. חלקם מתארים פערים יישומיים קיימים, בעוד אחרים הם בגדר הצעות מדיניות חדשות הדורשות הוכחת סמכות, חקיקה, או התאמה להסכמי הסחר ופרוטוקול פריז.
+              </p>
+            </div>
+          </div>
         )}
 
         {/* TAB 2: STRATEGIC CATEGORIZATION */}
@@ -702,10 +713,10 @@ export default function App() {
                         }`}>
                           {lever.certaintyLevel}
                         </span>
-                        {lever.legalSource?.name && (
+                        {lever.legalSource && (
                           <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
                             <Gavel className="w-3.5 h-3.5" />
-                            {lever.legalSource?.name}
+                            {lever.legalSource}
                           </span>
                         )}
                       </div>
@@ -1024,10 +1035,10 @@ export default function App() {
                         }`}>
                           {lever.certaintyLevel}
                         </span>
-                        {lever.legalSource?.name && (
+                        {lever.legalSource && (
                           <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
                             <Gavel className="w-3 h-3" />
-                            {lever.legalSource?.name}
+                            {lever.legalSource}
                           </span>
                         )}
                       </div>
