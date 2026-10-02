@@ -7,12 +7,8 @@ import {
   ShieldAlert, 
   CheckCircle2, 
   Search, 
-  Filter, 
   ArrowRight, 
   ArrowLeft, 
-  Share2, 
-  Download, 
-  ChevronRight, 
   Gavel, 
   TrendingDown, 
   AlertTriangle, 
@@ -20,12 +16,10 @@ import {
   Cpu, 
   Compass, 
   Copy, 
-  ExternalLink,
   Presentation,
   ListFilter,
   Flame,
   Award,
-  BookOpen
 } from 'lucide-react';
 import { LEVERS_DATA, Lever } from './data/leversData';
 
@@ -46,7 +40,7 @@ export default function App() {
       icon: Coins, 
       color: 'from-amber-500/20 to-yellow-600/10 border-amber-500/40 text-amber-400',
       badgeBg: 'bg-amber-500/10 text-amber-300 border-amber-500/30',
-      desc: 'שימוש בדיני הבנקאות, מערכות הסליקה (זה"ב), מדיניות מוניטרית ותקני הלבנת הון (FATF) כדי לייקר את עלות הכסף של הרשות, לחייב דמי שימוש בשקל ולחסום ערוצי הון זרים.'
+      desc: 'שימוש בדיני הבנקאות, מערכות הסליקה (זה"ב), מדיניות מוניטרית ותקני הלבנת הון (FATF) במטרה לשקף עלויות הפעלה ריאליות ולהדק את מניעת הלבנת ההון.'
     },
     { 
       id: 'infrastructure', 
@@ -54,7 +48,7 @@ export default function App() {
       icon: Cpu, 
       color: 'from-emerald-500/20 to-teal-600/10 border-emerald-500/40 text-emerald-400',
       badgeBg: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30',
-      desc: 'החלת תעריפים ריאליים וקנסות הנדסיים מודרניים על מים (עלות שולית), חשמל (עיוות הרמוני ודמי הולכה), טיפול בשפכים (פחת הוני) ואמנות סביבה בינלאומיות (באזל, CBAM).'
+      desc: 'החלת תעריפים ריאליים וקנסות הנדסיים מודרניים על מים (עלות שולית), חשמל (עיוות הרמוני ודמי הולכה), טיפול בשפכים (פחת הוני) ואמנות סביבה בינלאומיות (באזל).'
     },
     { 
       id: 'trade', 
@@ -62,7 +56,7 @@ export default function App() {
       icon: Layers, 
       color: 'from-blue-500/20 to-indigo-600/10 border-blue-500/40 text-blue-400',
       badgeBg: 'bg-blue-500/10 text-blue-300 border-blue-500/30',
-      desc: 'סגירת מעטפת המכס הישראלית על ידי ביטול פטורי תקינה במכון התקנים, בדיקות מעבדה פיטוסניטריות מחמירות, ביטול מחסני ערובה והטלת מכסי היצף ועמילות סחר מקוון.'
+      desc: 'בחינת מעטפת המכס והחלת דרישות תקינה על ידי סקירת פטורי תקינה במכון התקנים, בדיקות מעבדה פיטוסניטריות מחמירות, ביטול מחסני ערובה והטלת מכסי היצף ועמילות סחר מקוון.'
     },
     { 
       id: 'civil', 
@@ -70,9 +64,24 @@ export default function App() {
       icon: Building2, 
       color: 'from-purple-500/20 to-violet-600/10 border-purple-500/40 text-purple-400',
       badgeBg: 'bg-purple-500/10 text-purple-300 border-purple-500/30',
-      desc: 'החלת משטר רגולציה אזרחי דווקני בשטחי C הכולל חשיפת נהנים סופיים (UBO), חובת רישוי מקצועי ישראלי, סיווג צמ"ה כדו-שימושי ואכיפת חוק צמצום המזומן ותקני בטיחות עבודה.'
+      desc: 'החלת משטר רגולציה אזרחי עקבי בשטחי C הכולל חשיפת נהנים סופיים (UBO), חובת רישוי מקצועי ישראלי, סיווג צמ"ה כדו-שימושי ואכיפת חוק צמצום המזומן ותקני בטיחות עבודה.'
     }
   ];
+
+  
+  const stats = useMemo(() => {
+    let requiresLegal = 0;
+    let hypothesis = 0;
+    let lacksEvidence = 0;
+    let notSupported = 0;
+    LEVERS_DATA.forEach(l => {
+      if (l.certaintyLevel === 'Requires Legal Review') requiresLegal++;
+      if (l.certaintyLevel === 'Hypothesis') hypothesis++;
+      if (l.certaintyLevel === 'Lacks Evidence') lacksEvidence++;
+      if (l.classification === 'not_supported') notSupported++;
+    });
+    return { requiresLegal, hypothesis, lacksEvidence, notSupported, total: LEVERS_DATA.length };
+  }, []);
 
   const flagshipLevers = useMemo(() => {
     return LEVERS_DATA.filter(l => l.isFlagship);
@@ -87,8 +96,12 @@ export default function App() {
         lever.summary.includes(searchQuery) ||
         lever.governingAuthority.includes(searchQuery) ||
         lever.legalShield.includes(searchQuery) ||
-        (lever.legalSource && lever.legalSource.includes(searchQuery));
+        (lever.legalSource && (lever.legalSource.name.includes(searchQuery) || lever.legalSource.type.includes(searchQuery))) || (lever.legalAnalysis && lever.legalAnalysis.includes(searchQuery));
       return matchesCat && matchesSearch;
+    }).sort((a, b) => {
+      if (a.classification === 'not_supported' && b.classification !== 'not_supported') return 1;
+      if (a.classification !== 'not_supported' && b.classification === 'not_supported') return -1;
+      return a.number - b.number;
     });
   }, [selectedCategory, searchQuery]);
 
@@ -101,7 +114,7 @@ export default function App() {
   const slides = [
     {
       title: 'המעבר ללוחמה בירוקרטית (Bureaucratic Warfare)',
-      subtitle: 'שינוי פרדיגמה אסטרטגי עבור תנועת רגבים',
+      subtitle: 'שינוי פרדיגמה אסטרטגי בניהול מנהלי',
       tag: 'מבוא אסטרטגי',
       content: (
         <div className="space-y-6 text-slate-200">
@@ -125,22 +138,22 @@ export default function App() {
                 <ShieldAlert className="w-5 h-5" /> הפרדיגמה החדשה: לוחמה בירוקרטית
               </h4>
               <ul className="text-sm space-y-1 text-slate-300 list-disc list-inside">
-                <li>החלת כללי עולם ראשון (OECD, WTO, FATF) על ישות עוינת</li>
+                <li>בחינת רגולציה אזרחית קיימת, בכפוף לסמכות ולמידתיות</li>
                 <li>הגנה מנהלית עקבית המבוססת על סטנדרטים של בריאות וסביבה</li>
-                <li>שאיבת הון חוקית וקיזוז חשבונאי ישיר מכספי סליקה</li>
-                <li>שיתוק תפוקתי (Throughput) של מנגנוני הרשות מבפנים</li>
+                <li>בחינת עמידה בסטנדרטים של איסור הלבנת הון</li>
+                <li>התאמת דרישות רישוי ואכיפה הולמת</li>
               </ul>
             </div>
           </div>
           <p className="text-slate-300 leading-relaxed">
-            כלכלת הרשות הפלסטינית היא סירת גומי ששטה בתוך אוקיינוס של רגולציה ותשתיות ישראליות. הפעלת הפינצטה הרגולטורית מאפשרת לממשל הישראלי לפרק את מוקדי הכוח שלה בצורה קרה, חוקית ומדויקת.
+            שימוש אקטיבי בכלי רגולציה אזרחית מצריך בחינה משפטית מדוקדקת ואיזון מול תכליות מנהליות לגיטימיות.
           </p>
         </div>
       )
     },
     {
       title: 'ארבעת מרחבי הפעולה המאקרו-רגולטוריים',
-      subtitle: 'חלוקה אסטרטגית של 52 המנופים המנהליים',
+      subtitle: `חלוקה אסטרטגית של ${stats.total} המנופים המנהליים`,
       tag: 'ארכיטקטורה רגולטורית',
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -191,18 +204,18 @@ export default function App() {
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-rose-400 font-bold uppercase tracking-wider block mb-1">משמעות כלכלית</span>
               <p className="text-sm text-slate-300">
-                חובת בדיקת מעבדה לכל מכולה תייצר צוואר בקבוק עצום. דמי השהיה בנמלים ירקיעו שחקים, היבוא ייעצר, יבואנים יפשטו רגל, והכנסות הרשות ממסי יבוא יתרסקו.
+                הגברת רגולציית התקינה עשויה ליצור צוואר בקבוק במעברי המכס. עיכוב נתיבי היבוא לשם בדיקות תקינה עלול להשפיע מהותית על רווחיות היבואנים והכנסות הרשות.
               </p>
             </div>
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-emerald-400 font-bold uppercase tracking-wider block mb-1">צעד ביצועי נדרש</span>
               <p className="text-sm text-slate-300">
-                הנחיה מנהלית חתומה של מנהל רשות המסים ושר האוצר המבטלת את נוהל "פטור תקינה לסחורות איו\"ש" – בכפוף לבחינת סמכות ומקור משפטי.
+                הנחיה מנהלית חתומה של מנהל רשות המסים ושר האוצר המבטלת את נוהל "פטור תקינה לסחורות איו"ש" – בכפוף לבחינת סמכות ומקור משפטי.
               </p>
             </div>
           </div>
           <div className="p-3 bg-slate-900 border border-cyan-500/30 rounded-lg text-xs text-cyan-300">
-            <strong>מגן משפטי בינלאומי:</strong> הסכם הסחר של ה-WTO לעניין חסמי תקינה (TBT Agreement) המתיר מפורשות הגנה על שלום ובריאות הציבור.
+            <strong>בסיס משפטי לבחינה:</strong> הרשות אינה חברה ב-WTO; הפרוטוקול הרלוונטי הוא פרוטוקול פריז (נספח המכס), ויש לבחון את ההשלכות לאורו.
           </div>
         </div>
       )
@@ -217,13 +230,13 @@ export default function App() {
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-amber-400 font-bold uppercase tracking-wider block mb-1">המצב כיום</span>
               <p className="text-sm text-slate-300">
-                הכלכלה הפלסטינית משתמשת בשקל הישראלי כהילך חוקי בלעדי. בנק ישראל ומשרד האוצר מדפיסים, מנהלים, מגבים ומשנעים שטרות עבור 3 מיליון איש בחינם.
+                הכלכלה הפלסטינית משתמשת בשקל הישראלי כהילך חוקי בלעדי. בנק ישראל ומשרד האוצר מדפיסים, מנהלים, מגבים ומשנעים שטרות עבור האוכלוסייה הפלסטינית ללא תמחור ההוצאות.
               </p>
             </div>
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-cyan-400 font-bold uppercase tracking-wider block mb-1">הפרצה הרגולטורית</span>
               <p className="text-sm text-slate-300">
-                בחינת עלויות תפעול וניהול מטבע מול פרוטוקול פריז. ישראל רשאית לדרוש דמי סניוראז׳ (Seigniorage) ואחזקת מטבע על פי עלות תפעולית.
+                בחינת עלויות תפעול וניהול מטבע מול פרוטוקול פריז. יש לבחון אם ישראל רשאית לדרוש דמי סניוראז׳ (Seigniorage) ואחזקת מטבע על פי עלות תפעולית.
               </p>
             </div>
           </div>
@@ -231,7 +244,7 @@ export default function App() {
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-rose-400 font-bold uppercase tracking-wider block mb-1">משמעות כלכלית</span>
               <p className="text-sm text-slate-300">
-                השתת עמלת ניהול מטבע בדמי ניהול יחסיים ממחזור המזומנים הפלסטיני משמעה פוטנציאל חיוב וקיזוז בכפוף לעיגון משפטי ישירות מכספי הסליקה כהחזר הוצאות לגיטימי לבנק ישראל.
+                פוטנציאל חיוב וקיזוז בכפוף לעיגון משפטי מול פרוטוקול פריז, שכן הנספח הנוכחי אינו כולל מנגנון אגרה מסוג זה והקיזוז עלול להיפסל משפטית ללא אישור והסכמה רחבה.
               </p>
             </div>
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
@@ -242,14 +255,14 @@ export default function App() {
             </div>
           </div>
           <div className="p-3 bg-slate-900 border border-amber-500/30 rounded-lg text-xs text-amber-300">
-            <strong>מגן משפטי בינלאומי:</strong> סמכויות בנק מרכזי ריבוני בדיני המטבע ומניעת עשיית עושר ולא במשפט.
+            <strong>מגן משפטי בינלאומי:</strong> דיני המטבע (כפוף להסכמי פריז)
           </div>
         </div>
       )
     },
     {
       title: 'מנוף דגל 3: חשיפת בעלי שליטה (UBO) בחברות זרות בשטחי C',
-      subtitle: 'חוקי הלבנת הון ככלי לעצירת ההשתלטות על מקרקעין',
+      subtitle: 'חוקי הלבנת הון ככלי ליצירת שקיפות נאותה ברכישת מקרקעין',
       tag: 'מנוף דגל מנהל אזרחי',
       content: (
         <div className="space-y-4 text-slate-200">
@@ -257,7 +270,7 @@ export default function App() {
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-amber-400 font-bold uppercase tracking-wider block mb-1">המצב כיום</span>
               <p className="text-sm text-slate-300">
-                בכירי הרשות ואוליגרכים רוכשים שטחים אסטרטגיים בשטחי C דרך חברות קש בירדן, בפנמה ובמקלטי מס. המנהל האזרחי רושם את החברה מבלי לבדוק מי האדם הפיזי מאחוריה.
+                קיימת טענה (הדורשת מחקר לאימות) כי גורמים רוכשים שטחים דרך חברות קש בחו"ל. נטען כי רישום החברות אינו דורש גילוי של האדם הפיזי מאחוריהן.
               </p>
             </div>
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
@@ -271,24 +284,24 @@ export default function App() {
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-rose-400 font-bold uppercase tracking-wider block mb-1">משמעות כלכלית ומרחבית</span>
               <p className="text-sm text-slate-300">
-                הקפאה מיידית של כל רכישות הנדל"ן האסטרטגיות של הרשות. חילוט מקרקעין שנרכשו בכספי ארגוני טרור או תרומות לא מדווחות, בכלים מסחריים מודרניים.
+                מניעת הזרמת הון בלתי מפוקח והסדרת רישומי מקרקעין שקופים לשמירה על ביטחון אזרחי.
               </p>
             </div>
             <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-emerald-400 font-bold uppercase tracking-wider block mb-1">צעד ביצועי נדרש</span>
               <p className="text-sm text-slate-300">
-                צו צבאי של אלוף פיקוד המרכז המאמץ את תקנות איסור הלבנת הון (חובת זיהוי נהנה סופי) לתוך תחיקת הביטחון ומערכת הטאבו של המנהל האזרחי.
+                צו צבאי המאמץ את תקנות איסור הלבנת הון. נדרש מנגנון רישום תאגידים ייעודי שלא קיים כיום באזור C.
               </p>
             </div>
           </div>
           <div className="p-3 bg-slate-900 border border-purple-500/30 rounded-lg text-xs text-purple-300">
-            <strong>מגן משפטי בינלאומי:</strong> סטנדרטים עולמיים של ארגון ה-FATF ודיני מאבק בהלבנת הון (AML) שאינם ניתנים לתקיפה בינלאומית.
+            <strong>מגן משפטי בינלאומי:</strong> סטנדרטים עולמיים של ארגון ה-FATF ודיני מאבק בהלבנת הון.
           </div>
         </div>
       )
     },
     {
-      title: 'מפת דרכים אופרטיבית לתנועת רגבים',
+      title: 'מפת דרכים אופרטיבית להערכת היתכנות',
       subtitle: '3 צעדים מעשיים למחקר ובחינת מדיניות',
       tag: 'תוכנית עבודה 2026',
       content: (
@@ -328,7 +341,14 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-cyan-500/30">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+      
+      <div className="sticky top-0 z-50 flex flex-col">
+      {/* Global Sticky Disclaimer */}
+      <div className="bg-amber-500/10 border-b border-amber-500/20 backdrop-blur-md px-4 py-2 text-center text-xs text-amber-200">
+        טיוטה ראשונית שנוצרה בעזרת AI. לא חוות דעת משפטית, לא נבדקה על ידי משפטנים, לא אומתה מול מקורות. יוזמה אזרחית עצמאית של [שי מרדכי].
+      </div>
+
+      <header className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-700 shadow-lg shadow-cyan-900/30">
@@ -337,18 +357,18 @@ export default function App() {
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-bold tracking-tight text-white font-['Rubik',sans-serif]">
-                  מנופי מדיניות ולוחמה בירוקרטית
+                  כלי רגולציה אזרחיים: טיוטה לדיון
                 </h1>
                 <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-800 text-cyan-300 font-mono">
-                  רגבים אסטרטגיה
+                  יוזמה אזרחית
                 </span>
-                <span className="flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                   אב-טיפוס מבוסס AI - לא עבר אימות משפטי
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                סינתזה ביצועית של 52 מנופים אזרחיים, כלכליים ומנהליים מול הרשות הפלסטינית
+                סינתזה ביצועית של {stats.total} רעיונות רגולטוריים, כלכליים ומנהליים מול הרשות הפלסטינית
               </p>
             </div>
           </div>
@@ -419,29 +439,30 @@ export default function App() {
               }`}
             >
               <ListFilter className="w-4 h-4" />
-              כל 52 המנופים
+              כל {stats.total} הרעיונות
             </button>
           </nav>
         </div>
       </header>
+      </div>
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* TAB 1: EXECUTIVE SUMMARY */}
         {activeTab === 'executive' && (
-          <div className="space-y-8 animate-fadeIn">
+          <div className="space-y-8 ">
             {/* Hero Banner */}
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-l from-slate-900 via-slate-900 to-cyan-950/70 border border-slate-800 p-8 shadow-2xl">
               <div className="relative z-10 max-w-4xl space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-800/80 text-cyan-300 text-xs font-semibold">
-                  <ShieldAlert className="w-3.5 h-3.5" /> מסמך עמדה ומצגת מנהלים | תנועת רגבים
+                  <ShieldAlert className="w-3.5 h-3.5" /> טיוטה שהוכנה להערות על ידי [שי מרדכי] | יוזמה אזרחית עצמאית, אינה מייצגת ארגון
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-['Rubik',sans-serif] leading-tight">
-                  מ"אגרוף קמוץ" ל"רשת קורי עכביש": מעבר ללוחמה בירוקרטית
+                  בחינת כלי רגולציה אזרחיים: טיוטה למחקר
                 </h2>
                 <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
-                  במשך שלושה עשורים התמקד השיח הפוליטי וההתיישבותי בישראל בסמכויות צבאיות, פעולות הריסה נקודתיות ובמאבקים מדיניים בעלי פרופיל תקשורתי גבוה. ואולם, הכוח האמיתי של משרד האוצר, רשות המסים והמנהל האזרחי אינו טמון בהצהרות על פירוק הרשות או בהורדת דחפורים לשטח, אלא <strong className="text-cyan-300">בהחלה מדוקדקת, דווקנית וקרה של רגולציה אזרחית מודרנית</strong> – דיני תקינה, איכות סביבה, הלבנת הון, בטיחות בדרכים ומדיניות מוניטרית – על משק נחשל התלוי לחלוטין בתשתיות ישראליות.
+                  במשך שלושה עשורים התמקד השיח הפוליטי וההתיישבותי בישראל בסמכויות צבאיות, פעולות הריסה נקודתיות ובמאבקים מדיניים בעלי פרופיל תקשורתי גבוה. ואולם, פוטנציאל השפעה של משרד האוצר, רשות המסים והמנהל האזרחי אינו טמון בהצהרות על פירוק הרשות או בהורדת דחפורים לשטח, אלא <strong className="text-cyan-300">בהחלה מדוקדקת, דווקנית וקרה של רגולציה אזרחית מודרנית</strong> – דיני תקינה, איכות סביבה, הלבנת הון, בטיחות בדרכים ומדיניות מוניטרית – כלים אלו מאפשרים אכיפת נורמות מודרניות. 
                 </p>
                 <div className="pt-2 flex flex-wrap gap-4">
                   <button 
@@ -460,7 +481,16 @@ export default function App() {
                   </button>
                 </div>
               </div>
-              <div className="absolute left-0 bottom-0 top-0 w-1/3 bg-radial from-cyan-600/10 to-transparent pointer-events-none" />
+              <div className="absolute left-0 bottom-0 top-0 w-1/3 bg-gradient-to-r from-cyan-600/10 to-transparent pointer-events-none" />
+            </div>
+
+            
+            <div className="flex flex-wrap items-center justify-center gap-4 py-3 bg-slate-900 border-y border-slate-800 text-sm font-semibold">
+              <span className="text-amber-400">{stats.requiresLegal} בחינה משפטית נדרשת</span>
+              <span className="text-slate-600">|</span>
+              <span className="text-indigo-400">{stats.hypothesis} השערה</span>
+              <span className="text-slate-600">|</span>
+              <span className="text-rose-400">{stats.lacksEvidence} חסר ביסוס ראייתי</span>
             </div>
 
             {/* Core Pillars Grid */}
@@ -471,7 +501,7 @@ export default function App() {
                 </div>
                 <h3 className="text-lg font-bold text-white">פוקוס על תפוקה (Throughput)</h3>
                 <p className="text-sm text-slate-300 leading-relaxed">
-                  הכשל הממשלתי הנוכחי אינו היעדר סמכות אלא צווארי בקבוק תפעוליים שמונעים אכיפה (כמו מחסור במודדים להסדר מקרקעין או היעדר חיבורי מערכות). התמקדות בתפוקה מאפשרת לשתק את הרשות בלי להמציא חוקים חדשים.
+                  הכשל הממשלתי הנוכחי אינו היעדר סמכות אלא צווארי בקבוק תפעוליים שמונעים אכיפה (כמו מחסור במודדים להסדר מקרקעין או היעדר חיבורי מערכות). התמקדות בתפוקה מאפשרת הסדרת רגולציה בסיסית תוך שימוש בכלים קיימים.
                 </p>
               </div>
 
@@ -479,7 +509,7 @@ export default function App() {
                 <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">
                   <Gavel className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-white">עמידות משפטית ומנהלית מוגברת</h3>
+                <h3 className="text-lg font-bold text-white">שיקולי עמידות משפטית</h3>
                 <p className="text-sm text-slate-300 leading-relaxed">
                   הקהילה הבינלאומית ובית המשפט העליון מכירים בסמכות המנהלית המובהקת לאכוף חוקי בטיחות מזון, מניעת אסבסט, תקני בטיחות רכב או כללי מאבק בהלבנת הון (FATF). הכלים נשענים על סטנדרטים בינלאומיים לגיטימיים.
                 </p>
@@ -489,9 +519,9 @@ export default function App() {
                 <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">
                   <Coins className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-white">קיזוז חשבונאי ישיר</h3>
+                <h3 className="text-lg font-bold text-white">קיזוז עקרוני</h3>
                 <p className="text-sm text-slate-300 leading-relaxed">
-                  במקום עימותים פוליטיים על עצירת כספי מסים, המדינה יכולה להשית שומות מסחריות, דמי ניהול מוניטרי (Seigniorage), היטלי שפכים וקנסות עיוות רשת – ולקזזם אוטומטית בהתאם לחשבונאות ציבורית תקינה.
+                  במקום עימותים פוליטיים על עצירת כספי מסים, המדינה יכולה להשית שומות מסחריות, דמי ניהול מוניטרי (Seigniorage), היטלי שפכים וקנסות עיוות רשת – בכפוף לסמכות ולדין.
                 </p>
               </div>
             </div>
@@ -501,7 +531,7 @@ export default function App() {
               <div className="p-5 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-bold text-white font-['Rubik',sans-serif]">
-                    מטריצת השוואה: לוחמה בירוקרטית מול פעולות מסורתיות
+                    מטריצת השוואה: השוואת גישות: אכיפה אזרחית מול כלים צבאיים
                   </h3>
                   <p className="text-xs text-slate-400">ניתוח פרמטרים מרכזיים להערכת אפקטיביות</p>
                 </div>
@@ -516,7 +546,7 @@ export default function App() {
                       <th className="py-3 px-4">פרמטר</th>
                       <th className="py-3 px-4 text-rose-300">דפוס פעולה מסורתי (פוליטי/צבאי)</th>
                       <th className="py-3 px-4 text-cyan-300">לוחמה בירוקרטית (רגולציה אזרחית)</th>
-                      <th className="py-3 px-4">יתרון אסטרטגי לרגבים</th>
+                      <th className="py-3 px-4">מאפיינים עיקריים</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/60 text-slate-200">
@@ -524,19 +554,19 @@ export default function App() {
                       <td className="py-3.5 px-4 font-medium text-slate-300">זירת הפעולה</td>
                       <td className="py-3.5 px-4 text-slate-400">הריסות בשטח, חיכוך מול מצלמות</td>
                       <td className="py-3.5 px-4 text-cyan-300 font-medium">נמלים, שרתי מחשב, משרדי ממשלה</td>
-                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">אפס חיכוך פיזי ותקשורתי</td>
+                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">צמצום חיכוך במוקדי עימות ישירים</td>
                     </tr>
                     <tr className="hover:bg-slate-800/30">
                       <td className="py-3.5 px-4 font-medium text-slate-300">עמידות בינלאומית</td>
                       <td className="py-3.5 px-4 text-slate-400">גינויים באו"ם, לחץ אמריקאי וסנקציות</td>
-                      <td className="py-3.5 px-4 text-cyan-300 font-medium">עמידות גבוהה: הגנה מבוססת על בריאות הציבור, סביבה ותקינה</td>
-                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">קושי משפטי לתקוף דרישות מקצועיות</td>
+                      <td className="py-3.5 px-4 text-cyan-300 font-medium">בחינה המבוססת על בריאות הציבור, סביבה ותקינה</td>
+                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">בחינת הגנה משפטית מבוססת תקינה אזרחית</td>
                     </tr>
                     <tr className="hover:bg-slate-800/30">
                       <td className="py-3.5 px-4 font-medium text-slate-300">השפעה כלכלית</td>
                       <td className="py-3.5 px-4 text-slate-400">קיזוז פוליטי שמשוחרר תחת לחץ זר</td>
                       <td className="py-3.5 px-4 text-cyan-300 font-medium">הסדרת חובות מסחריים וקיזוז עלויות שירות ריאליות</td>
-                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">בלתי הפיך ומתמשך חודש בחודשו</td>
+                      <td className="py-3.5 px-4 text-emerald-400 text-xs font-semibold">השפעה כלכלית מתמשכת</td>
                     </tr>
                     <tr className="hover:bg-slate-800/30">
                       <td className="py-3.5 px-4 font-medium text-slate-300">כלי יישום נדרש</td>
@@ -549,26 +579,16 @@ export default function App() {
               </div>
             </div>
 
-            {/* Disclaimer */}
-            <div className="mt-8 p-5 rounded-2xl bg-slate-900 border border-slate-700/50 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-2 h-full bg-cyan-600/50"></div>
-              <h4 className="text-cyan-400 font-bold text-sm mb-2 flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4" />
-                הערת שקיפות (Disclaimer)
-              </h4>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                מערכת זו הינה <strong>מודל רעיוני (Conceptual Framework)</strong> שנוצר כיוזמה אזרחית בעזרת כלי בינה מלאכותית (AI) לשם סיעור מוחות. המנופים המוצגים <strong>אינם מהווים חוות דעת משפטית</strong>. חלקם מתארים פערים יישומיים קיימים, בעוד אחרים הם בגדר הצעות מדיניות חדשות הדורשות הוכחת סמכות, חקיקה, או התאמה להסכמי הסחר ופרוטוקול פריז.
-              </p>
-            </div>
+            
           </div>
         )}
 
         {/* TAB 2: STRATEGIC CATEGORIZATION */}
         {activeTab === 'categories' && (
-          <div className="space-y-8 animate-fadeIn">
+          <div className="space-y-8 ">
             <div>
               <h2 className="text-2xl font-extrabold text-white font-['Rubik',sans-serif]">
-                קיטלוג אסטרטגי של 52 המנופים הרגולטוריים
+                קיטלוג אסטרטגי של {stats.total} המנופים הרגולטוריים
               </h2>
               <p className="text-slate-400 text-sm mt-1">
                 מיפוי שיטתי ב-4 מקרו-קטגוריות של כלכלה ומנהל אזרחי
@@ -638,10 +658,10 @@ export default function App() {
             </div>
 
             {/* Quick jump to all levers */}
-            <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-850 border border-slate-800 flex flex-wrap items-center justify-between gap-4">
+            <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h4 className="text-lg font-bold text-white">מעוניין לצפות בכל 52 המנופים המסווגים?</h4>
-                <p className="text-xs text-slate-400">כולל חיפוש טקסטואלי, סינון רשויות מפקחות, ניקוד ישימות ופירוט מלא.</p>
+                <h4 className="text-lg font-bold text-white">מעוניין לצפות בכל {stats.total} הרעיונות המסווגים?</h4>
+                <p className="text-xs text-slate-400">כולל חיפוש טקסטואלי, סינון רשויות מפקחות, פירוט מלא.</p>
               </div>
               <button
                 onClick={() => setActiveTab('all-levers')}
@@ -656,7 +676,7 @@ export default function App() {
 
         {/* TAB 3: TOP TIER SELECTION (מנופי דגל) */}
         {activeTab === 'flagship' && (
-          <div className="space-y-8 animate-fadeIn">
+          <div className="space-y-8 ">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-2">
                 <Flame className="w-3.5 h-3.5" /> 3 מנופי מדיניות מרכזיים לבחינה והעמקה
@@ -665,7 +685,7 @@ export default function App() {
                 מנופי הדגל של המחקר (Top Tier Selection)
               </h2>
               <p className="text-slate-400 text-sm mt-1 max-w-3xl">
-                שלושת המנופים הבאים נבחרו מתוך כלל המאגר כ בעלי האימפקט הכלכלי הגבוה ביותר, עמידות משפטית הדורשת בחינה מעמיקה וישימות מנהלית מיידית ללא צורך בחקיקה בכנסת.
+                שלושת המנופים הבאים נבחרו מתוך כלל המאגר כ שלושה מנופים שנבחרו לבחינה מעמיקה ראשונה; כולם טעונים בחינה משפטית.
               </p>
             </div>
 
@@ -703,11 +723,10 @@ export default function App() {
                           {catObj?.label}
                         </span>
                         <span className="text-xs px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-bold">
-                          סיווג: {lever.classification === 'implemented' ? 'יושם' : lever.classification === 'documented_gap' ? 'פער מתועד' : lever.classification === 'needs_investigation' ? 'דרוש בירור' : lever.classification === 'policy_proposal' ? 'הצעת מדיניות' : lever.classification === 'legal_review_required' ? 'טעון בירור משפטי' : 'לא ישים'}
+                          סיווג: {lever.classification === 'implemented' ? 'יושם' : lever.classification === 'documented_gap' ? 'פער מתועד' : lever.classification === 'needs_investigation' ? 'דרוש בירור' : lever.classification === 'policy_proposal' ? 'הצעת מדיניות' : lever.classification === 'legal_review_required' ? 'טעון בירור משפטי' : 'חסר ביסוס - לא מומלץ'}
                         </span>
                         <span className={`text-xs px-3 py-1 rounded-full border font-bold ${
-                          lever.certaintyLevel === 'Verified' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                          lever.certaintyLevel === 'Hypothesis' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' :
+                          lever.classification === 'not_supported' ? 'bg-slate-800 text-slate-400 border-slate-700' : lever.certaintyLevel === 'Hypothesis' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' :
                           lever.certaintyLevel === 'Requires Legal Review' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
                           'bg-rose-500/10 text-rose-400 border-rose-500/30'
                         }`}>
@@ -716,7 +735,7 @@ export default function App() {
                         {lever.legalSource && (
                           <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
                             <Gavel className="w-3.5 h-3.5" />
-                            {lever.legalSource}
+                            {lever.legalSource.name}
                           </span>
                         )}
                       </div>
@@ -769,6 +788,16 @@ export default function App() {
                       </div>
                     </div>
 
+                    
+                    {lever.legalAnalysis && (
+                      <div className="mt-6 p-4 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
+                        <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="text-sm font-bold text-amber-500 block mb-1">ניתוח והערכה משפטית:</span>
+                          <p className="text-sm text-slate-300 leading-relaxed">{lever.legalAnalysis}</p>
+                        </div>
+                      </div>
+                    )}
                     {lever.evidenceOfGap && (
                       <div className="mt-6 p-4 rounded-xl bg-slate-900 border border-amber-900/50 flex items-start gap-3">
                         <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
@@ -783,7 +812,7 @@ export default function App() {
                     <div className="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4 bg-slate-950/40 p-4 rounded-xl">
                       <div className="text-xs text-slate-300 flex items-center gap-2">
                         <Gavel className="w-4 h-4 text-cyan-400 shrink-0" />
-                        <span><strong>מגן משפטי ואמנות בינלאומיות:</strong> {lever.legalShield}</span>
+                        <span><strong>בסיס משפטי לבחינה (לא אומת):</strong> {lever.legalShield}</span>
                       </div>
                       <button
                         onClick={() => copyToClipboard(
@@ -811,10 +840,10 @@ export default function App() {
 
         {/* TAB 4: ACTIONABLE ROADMAP */}
         {activeTab === 'roadmap' && (
-          <div className="space-y-8 animate-fadeIn">
+          <div className="space-y-8 ">
             <div>
               <h2 className="text-3xl font-extrabold text-white font-['Rubik',sans-serif]">
-                מפת דרכים אופרטיבית לתנועת רגבים (Actionable Roadmap)
+                מפת דרכים אופרטיבית להערכת היתכנות (Actionable Roadmap)
               </h2>
               <p className="text-slate-400 text-sm mt-1">
                 תוכנית עבודה מוגדרת להנעת המנגנונים הממשלתיים והפרלמנטריים בטווח של 30-90 יום
@@ -831,13 +860,13 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white font-['Rubik',sans-serif]">
-                      שלב 1: מיפוי פערי רגולציה ואיסוף נתונים (Regulatory Gap Analysis)
+                      שלב 1: בדיקת היתכנות משפטית (Legal Feasibility Review)
                     </h3>
                     <p className="text-xs text-slate-400">מחקר תשתיתי לאיתור פערים בהחלת הדין והרגולציה</p>
                   </div>
                 </div>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  איסוף שיטתי של פניות חופש מידע (FOI), שאילתות פרלמנטריות ובקשות נתונים מרשויות האכיפה בישראל במטרה להבין את תמונת המצב המדויקת של אכיפת הרגולציה והיעדר הפיקוח.
+                  מיפוי צווים צבאיים וחקיקה ישראלית קיימת כדי לאמת האם הסמכות המוצעת אכן קיימת בפועל ובאיזה מדרג נורמטיבי. (FOI), שאילתות פרלמנטריות ובקשות נתונים מרשויות האכיפה בישראל במטרה להבין את תמונת המצב המדויקת של אכיפת הרגולציה והיעדר הפיקוח.
                 </p>
               </div>
 
@@ -849,13 +878,13 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white font-['Rubik',sans-serif]">
-                      שלב 2: גיבוש מסמכי היתכנות משפטית (Drafting Legal Feasibility Memos)
+                      שלב 2: איסוף ראיות ונתונים (FOIA)
                     </h3>
-                    <p className="text-xs text-slate-400">הכנת חוות דעת מקצועיות המנתחות את הסמכויות הקיימות</p>
+                    <p className="text-xs text-slate-400">מיפוי ובקשת נתונים ממשרדי הממשלה להוכחת הפער המנהלי</p>
                   </div>
                 </div>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  ניסוח סקירות משפטיות הבוחנות אילו מנופים עומדים בדרישות הדין הבינלאומי (כגון הסכמי ה-WTO ופרוטוקול פריז) ואילו מחייבים התאמת חקיקה או צווי אלוף.
+                  הגשת בקשות חופש מידע ממוקדות למשרדי ממשלה כדי לוודא שפער הרגולציה המתואר אכן מתקיים בפועל ולא מבוסס על השערות. (כגון הסכמי ה-WTO ופרוטוקול פריז) ואילו מחייבים התאמת חקיקה או צווי אלוף.
                 </p>
               </div>
 
@@ -867,13 +896,13 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white font-['Rubik',sans-serif]">
-                      שלב 3: בחינת משמעויות רוחב והשפעות מאקרו (Macro-Economic Impact Assessment)
+                      שלב 3: גיבוש מסמכי מדיניות (Drafting Policy Proposals)
                     </h3>
-                    <p className="text-xs text-slate-400">הערכת השלכות על שרשראות האספקה והביטחון הלאומי</p>
+                    <p className="text-xs text-slate-400">ניסוח ניירות עמדה מבוססי ראיות להצגה לדרגים המקצועיים</p>
                   </div>
                 </div>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  הצגת החלופות שנבחנו לפורומים מקצועיים של קבלת החלטות כדי לאמוד סיכונים, התכנות כלכלית ריאלית, ותגובות נגד אפשריות במערכת הפיננסית העולמית.
+                  רק לאחר אימות הסמכות והעובדות, ניסוח המלצות מדיניות אופרטיביות להצגה בפני הדרגים המקצועיים במשרדי הממשלה.
                 </p>
               </div>
             </div>
@@ -882,7 +911,7 @@ export default function App() {
 
         {/* TAB 5: PRESENTATION MODE */}
         {activeTab === 'presentation' && (
-          <div className="space-y-6 animate-fadeIn">
+          <div className="space-y-6 ">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
@@ -918,7 +947,7 @@ export default function App() {
                     {slides[currentSlide].tag}
                   </span>
                   <span className="text-xs text-slate-500 font-mono">
-                    תנועת רגבים | מחלקת מחקר ומדיניות
+                    יוזמה אזרחית עצמאית
                   </span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-['Rubik',sans-serif] mb-1">
@@ -951,16 +980,25 @@ export default function App() {
 
         {/* TAB 6: ALL 52 LEVERS DATABASE */}
         {activeTab === 'all-levers' && (
-          <div className="space-y-6 animate-fadeIn">
+          <div className="space-y-6 ">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-extrabold text-white font-['Rubik',sans-serif]">
-                  מאגר כל 52 המנופים הרגולטוריים
+                  מאגר {stats.total} רעיונות שנבחנו (מהם {stats.notSupported} חסרי ביסוס)
                 </h2>
                 <p className="text-slate-400 text-xs mt-0.5">
                   חיפוש, סינון וניתוח מעמיק של כלל כלי המדיניות
                 </p>
               </div>
+
+              
+            <div className="flex flex-wrap items-center justify-center gap-4 py-3 bg-slate-900 border-y border-slate-800 text-sm font-semibold">
+              <span className="text-amber-400">{stats.requiresLegal} בחינה משפטית נדרשת</span>
+              <span className="text-slate-600">|</span>
+              <span className="text-indigo-400">{stats.hypothesis} השערה</span>
+              <span className="text-slate-600">|</span>
+              <span className="text-rose-400">{stats.lacksEvidence} חסר ביסוס ראייתי</span>
+            </div>
 
               {/* Search & Category Filter */}
               <div className="flex flex-wrap items-center gap-3">
@@ -1028,8 +1066,7 @@ export default function App() {
 
                       <div className="flex flex-wrap gap-2 pt-2 mt-auto">
                         <span className={`text-[10px] px-2 py-0.5 rounded border ${
-                          lever.certaintyLevel === 'Verified' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
-                          lever.certaintyLevel === 'Hypothesis' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' :
+                          lever.classification === 'not_supported' ? 'bg-slate-800 text-slate-400 border-slate-700' : lever.certaintyLevel === 'Hypothesis' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' :
                           lever.certaintyLevel === 'Requires Legal Review' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
                           'bg-rose-500/10 text-rose-400 border-rose-500/30'
                         }`}>
@@ -1038,7 +1075,7 @@ export default function App() {
                         {lever.legalSource && (
                           <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
                             <Gavel className="w-3 h-3" />
-                            {lever.legalSource}
+                            {lever.legalSource.name}
                           </span>
                         )}
                       </div>
@@ -1093,7 +1130,6 @@ export default function App() {
                 
                 <div className="flex flex-wrap gap-2 mt-3">
                   <span className={`text-xs px-2.5 py-1 rounded-full border font-bold ${
-                    selectedLever.certaintyLevel === 'Verified' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
                     selectedLever.certaintyLevel === 'Hypothesis' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' :
                     selectedLever.certaintyLevel === 'Requires Legal Review' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
                     'bg-rose-500/10 text-rose-400 border-rose-500/30'
